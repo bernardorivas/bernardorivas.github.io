@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Applied Mathematics | Bernardo Rivas</title>
-    <link>http://localhost:1313/tags/applied-mathematics/</link>
-      <atom:link href="http://localhost:1313/tags/applied-mathematics/index.xml" rel="self" type="application/rss+xml" />
+    <link>http://localhost:51994/tags/applied-mathematics/</link>
+      <atom:link href="http://localhost:51994/tags/applied-mathematics/index.xml" rel="self" type="application/rss+xml" />
     <description>Applied Mathematics</description>
     <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Sat, 17 May 2025 09:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu7729264130191091259.png</url>
+      <url>http://localhost:51994/media/icon_hu960333769063741628.png</url>
       <title>Applied Mathematics</title>
-      <link>http://localhost:1313/tags/applied-mathematics/</link>
+      <link>http://localhost:51994/tags/applied-mathematics/</link>
     </image>
     
     <item>
       <title>Global Dynamics in Systems Biology</title>
-      <link>http://localhost:1313/talks/siam-ds25/</link>
+      <link>http://localhost:51994/talks/siam-ds25/</link>
       <pubDate>Sat, 17 May 2025 09:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/talks/siam-ds25/</guid>
+      <guid>http://localhost:51994/talks/siam-ds25/</guid>
       <description>&lt;p&gt;This talk presented recent advances in understanding global dynamics in systems biology using combinatorial and topological methods. The presentation focused on applications of Conley Index Theory to gene regulatory networks and demonstrated how these mathematical frameworks can provide rigorous insights into complex biological systems with potential applications in ecology and population dynamics.&lt;/p&gt;
 </description>
     </item>

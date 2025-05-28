@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Universidade De São Paulo | Bernardo Rivas</title>
-    <link>http://localhost:1313/tags/universidade-de-sao-paulo/</link>
-      <atom:link href="http://localhost:1313/tags/universidade-de-sao-paulo/index.xml" rel="self" type="application/rss+xml" />
+    <link>http://localhost:51994/tags/universidade-de-sao-paulo/</link>
+      <atom:link href="http://localhost:51994/tags/universidade-de-sao-paulo/index.xml" rel="self" type="application/rss+xml" />
     <description>Universidade De São Paulo</description>
     <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Tue, 15 Jan 2019 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu7729264130191091259.png</url>
+      <url>http://localhost:51994/media/icon_hu960333769063741628.png</url>
       <title>Universidade De São Paulo</title>
-      <link>http://localhost:1313/tags/universidade-de-sao-paulo/</link>
+      <link>http://localhost:51994/tags/universidade-de-sao-paulo/</link>
     </image>
     
     <item>
       <title>Minicourse on Differential Equations</title>
-      <link>http://localhost:1313/teaching/wi19_minicourse-differential-equations/</link>
+      <link>http://localhost:51994/teaching/wi19_minicourse-differential-equations/</link>
       <pubDate>Tue, 15 Jan 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/wi19_minicourse-differential-equations/</guid>
+      <guid>http://localhost:51994/teaching/wi19_minicourse-differential-equations/</guid>
       <description></description>
     </item>
     

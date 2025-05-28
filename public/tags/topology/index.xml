@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Topology | Bernardo Rivas</title>
-    <link>http://localhost:1313/tags/topology/</link>
-      <atom:link href="http://localhost:1313/tags/topology/index.xml" rel="self" type="application/rss+xml" />
+    <link>http://localhost:51994/tags/topology/</link>
+      <atom:link href="http://localhost:51994/tags/topology/index.xml" rel="self" type="application/rss+xml" />
     <description>Topology</description>
     <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Mon, 24 Feb 2025 13:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu7729264130191091259.png</url>
+      <url>http://localhost:51994/media/icon_hu960333769063741628.png</url>
       <title>Topology</title>
-      <link>http://localhost:1313/tags/topology/</link>
+      <link>http://localhost:51994/tags/topology/</link>
     </image>
     
     <item>
       <title>Network dynamics via combinatorics, topology and homology</title>
-      <link>http://localhost:1313/talks/ams-seminar/</link>
+      <link>http://localhost:51994/talks/ams-seminar/</link>
       <pubDate>Mon, 24 Feb 2025 13:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/talks/ams-seminar/</guid>
+      <guid>http://localhost:51994/talks/ams-seminar/</guid>
       <description>&lt;p&gt;This seminar explored the intersection of combinatorics, topology, and homology in the study of network dynamics. The presentation demonstrated how these mathematical frameworks can be combined to analyze complex networks, with applications to biological systems and gene regulatory networks. The talk highlighted recent advances in using algebraic topological methods to understand the global behavior of dynamical systems.&lt;/p&gt;
 </description>
     </item>

@@ -2,101 +2,101 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Teaching | Bernardo Rivas</title>
-    <link>http://localhost:1313/teaching/</link>
-      <atom:link href="http://localhost:1313/teaching/index.xml" rel="self" type="application/rss+xml" />
+    <link>http://localhost:51994/teaching/</link>
+      <atom:link href="http://localhost:51994/teaching/index.xml" rel="self" type="application/rss+xml" />
     <description>Teaching</description>
     <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Sat, 01 Jun 2024 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu7729264130191091259.png</url>
+      <url>http://localhost:51994/media/icon_hu960333769063741628.png</url>
       <title>Teaching</title>
-      <link>http://localhost:1313/teaching/</link>
+      <link>http://localhost:51994/teaching/</link>
     </image>
     
     <item>
       <title>01:640:311 - Introduction to Real Analysis I</title>
-      <link>http://localhost:1313/teaching/su24_real-analysis/</link>
+      <link>http://localhost:51994/teaching/su24_real-analysis/</link>
       <pubDate>Sat, 01 Jun 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/su24_real-analysis/</guid>
+      <guid>http://localhost:51994/teaching/su24_real-analysis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>01:640:311 - Introduction to Real Analysis I</title>
-      <link>http://localhost:1313/teaching/sp24_real-analysis-ta/</link>
+      <link>http://localhost:51994/teaching/sp24_real-analysis-ta/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/sp24_real-analysis-ta/</guid>
+      <guid>http://localhost:51994/teaching/sp24_real-analysis-ta/</guid>
       <description></description>
     </item>
     
     <item>
       <title>01:640:311 - Introduction to Real Analysis I</title>
-      <link>http://localhost:1313/teaching/fa23_real-analysis-ta/</link>
+      <link>http://localhost:51994/teaching/fa23_real-analysis-ta/</link>
       <pubDate>Fri, 01 Sep 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/fa23_real-analysis-ta/</guid>
+      <guid>http://localhost:51994/teaching/fa23_real-analysis-ta/</guid>
       <description></description>
     </item>
     
     <item>
       <title>01:640:300 - Introduction to Mathematical Reasoning</title>
-      <link>http://localhost:1313/teaching/su23_math-reasoning/</link>
+      <link>http://localhost:51994/teaching/su23_math-reasoning/</link>
       <pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/su23_math-reasoning/</guid>
+      <guid>http://localhost:51994/teaching/su23_math-reasoning/</guid>
       <description></description>
     </item>
     
     <item>
       <title>01:640:244 - Differential Equations for Engineering and Physics</title>
-      <link>http://localhost:1313/teaching/sp23_differential-equations-ta/</link>
+      <link>http://localhost:51994/teaching/sp23_differential-equations-ta/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/sp23_differential-equations-ta/</guid>
+      <guid>http://localhost:51994/teaching/sp23_differential-equations-ta/</guid>
       <description></description>
     </item>
     
     <item>
       <title>01:640:421 - Advanced Calculus for Engineering</title>
-      <link>http://localhost:1313/teaching/fa22_adv-calc-for-eng-ta/</link>
+      <link>http://localhost:51994/teaching/fa22_adv-calc-for-eng-ta/</link>
       <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/fa22_adv-calc-for-eng-ta/</guid>
+      <guid>http://localhost:51994/teaching/fa22_adv-calc-for-eng-ta/</guid>
       <description></description>
     </item>
     
     <item>
       <title>01:640:481 - Mathematical Theory of Statistics</title>
-      <link>http://localhost:1313/teaching/fa22_statistics-ta/</link>
+      <link>http://localhost:51994/teaching/fa22_statistics-ta/</link>
       <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/fa22_statistics-ta/</guid>
+      <guid>http://localhost:51994/teaching/fa22_statistics-ta/</guid>
       <description></description>
     </item>
     
     <item>
       <title>01:640:252 - Elementary Differential Equations</title>
-      <link>http://localhost:1313/teaching/su22_differential-equations/</link>
+      <link>http://localhost:51994/teaching/su22_differential-equations/</link>
       <pubDate>Wed, 01 Jun 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/su22_differential-equations/</guid>
+      <guid>http://localhost:51994/teaching/su22_differential-equations/</guid>
       <description></description>
     </item>
     
     <item>
       <title>01:640:244 - Differential Equations for Engineering and Physics</title>
-      <link>http://localhost:1313/teaching/sp22_differential-equations-ta/</link>
+      <link>http://localhost:51994/teaching/sp22_differential-equations-ta/</link>
       <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/sp22_differential-equations-ta/</guid>
+      <guid>http://localhost:51994/teaching/sp22_differential-equations-ta/</guid>
       <description></description>
     </item>
     
     <item>
       <title>01:640:151 - Calculus I for the Mathematical and Physical Sciences</title>
-      <link>http://localhost:1313/teaching/fa21_calculus-i-ta/</link>
+      <link>http://localhost:51994/teaching/fa21_calculus-i-ta/</link>
       <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/fa21_calculus-i-ta/</guid>
+      <guid>http://localhost:51994/teaching/fa21_calculus-i-ta/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Minicourse on Differential Equations</title>
-      <link>http://localhost:1313/teaching/wi19_minicourse-differential-equations/</link>
+      <link>http://localhost:51994/teaching/wi19_minicourse-differential-equations/</link>
       <pubDate>Tue, 15 Jan 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/wi19_minicourse-differential-equations/</guid>
+      <guid>http://localhost:51994/teaching/wi19_minicourse-differential-equations/</guid>
       <description></description>
     </item>
     

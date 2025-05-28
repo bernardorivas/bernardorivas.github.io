@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>DSGRN | Bernardo Rivas</title>
-    <link>http://localhost:1313/tags/dsgrn/</link>
-      <atom:link href="http://localhost:1313/tags/dsgrn/index.xml" rel="self" type="application/rss+xml" />
+    <link>http://localhost:51994/tags/dsgrn/</link>
+      <atom:link href="http://localhost:51994/tags/dsgrn/index.xml" rel="self" type="application/rss+xml" />
     <description>DSGRN</description>
     <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Thu, 26 Oct 2023 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu7729264130191091259.png</url>
+      <url>http://localhost:51994/media/icon_hu960333769063741628.png</url>
       <title>DSGRN</title>
-      <link>http://localhost:1313/tags/dsgrn/</link>
+      <link>http://localhost:51994/tags/dsgrn/</link>
     </image>
     
     <item>
       <title>DSGRN</title>
-      <link>http://localhost:1313/project/dsgrn/</link>
+      <link>http://localhost:51994/project/dsgrn/</link>
       <pubDate>Thu, 26 Oct 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/project/dsgrn/</guid>
+      <guid>http://localhost:51994/project/dsgrn/</guid>
       <description>&lt;p&gt;This project uses computational dynamics to produce dynamical surveys of switching models of regulatory networks. The resulting data is stored into a database which can then be queried for further research.&lt;/p&gt;</description>
     </item>
     

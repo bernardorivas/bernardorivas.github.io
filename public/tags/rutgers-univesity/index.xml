@@ -2,37 +2,37 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Rutgers Univesity | Bernardo Rivas</title>
-    <link>http://localhost:1313/tags/rutgers-univesity/</link>
-      <atom:link href="http://localhost:1313/tags/rutgers-univesity/index.xml" rel="self" type="application/rss+xml" />
+    <link>http://localhost:51994/tags/rutgers-univesity/</link>
+      <atom:link href="http://localhost:51994/tags/rutgers-univesity/index.xml" rel="self" type="application/rss+xml" />
     <description>Rutgers Univesity</description>
     <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Thu, 01 Sep 2022 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu7729264130191091259.png</url>
+      <url>http://localhost:51994/media/icon_hu960333769063741628.png</url>
       <title>Rutgers Univesity</title>
-      <link>http://localhost:1313/tags/rutgers-univesity/</link>
+      <link>http://localhost:51994/tags/rutgers-univesity/</link>
     </image>
     
     <item>
       <title>01:640:421 - Advanced Calculus for Engineering</title>
-      <link>http://localhost:1313/teaching/fa22_adv-calc-for-eng-ta/</link>
+      <link>http://localhost:51994/teaching/fa22_adv-calc-for-eng-ta/</link>
       <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/fa22_adv-calc-for-eng-ta/</guid>
+      <guid>http://localhost:51994/teaching/fa22_adv-calc-for-eng-ta/</guid>
       <description></description>
     </item>
     
     <item>
       <title>01:640:481 - Mathematical Theory of Statistics</title>
-      <link>http://localhost:1313/teaching/fa22_statistics-ta/</link>
+      <link>http://localhost:51994/teaching/fa22_statistics-ta/</link>
       <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/fa22_statistics-ta/</guid>
+      <guid>http://localhost:51994/teaching/fa22_statistics-ta/</guid>
       <description></description>
     </item>
     
     <item>
       <title>01:640:151 - Calculus I for the Mathematical and Physical Sciences</title>
-      <link>http://localhost:1313/teaching/fa21_calculus-i-ta/</link>
+      <link>http://localhost:51994/teaching/fa21_calculus-i-ta/</link>
       <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/teaching/fa21_calculus-i-ta/</guid>
+      <guid>http://localhost:51994/teaching/fa21_calculus-i-ta/</guid>
       <description></description>
     </item>
     

@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Gene Regulatory Networks | Bernardo Rivas</title>
-    <link>http://localhost:1313/tags/gene-regulatory-networks/</link>
-      <atom:link href="http://localhost:1313/tags/gene-regulatory-networks/index.xml" rel="self" type="application/rss+xml" />
+    <link>http://localhost:51994/tags/gene-regulatory-networks/</link>
+      <atom:link href="http://localhost:51994/tags/gene-regulatory-networks/index.xml" rel="self" type="application/rss+xml" />
     <description>Gene Regulatory Networks</description>
     <generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>en-us</language><lastBuildDate>Fri, 18 Apr 2025 13:00:00 +0000</lastBuildDate>
     <image>
-      <url>http://localhost:1313/media/icon_hu7729264130191091259.png</url>
+      <url>http://localhost:51994/media/icon_hu960333769063741628.png</url>
       <title>Gene Regulatory Networks</title>
-      <link>http://localhost:1313/tags/gene-regulatory-networks/</link>
+      <link>http://localhost:51994/tags/gene-regulatory-networks/</link>
     </image>
     
     <item>
       <title>Computational dynamics of gene regulatory networks</title>
-      <link>http://localhost:1313/talks/dynamics-seminar/</link>
+      <link>http://localhost:51994/talks/dynamics-seminar/</link>
       <pubDate>Fri, 18 Apr 2025 13:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/talks/dynamics-seminar/</guid>
+      <guid>http://localhost:51994/talks/dynamics-seminar/</guid>
       <description>&lt;p&gt;This seminar presented a computational approach to studying the dynamics of gene regulatory networks. The talk explored how mathematical models and computational tools can be used to analyze and predict the behavior of complex biological systems, with a focus on rigorous methods for identifying global dynamics.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Combinatorial topological method for gene regulatory networks</title>
-      <link>http://localhost:1313/talks/leiden-workshop/</link>
+      <link>http://localhost:51994/talks/leiden-workshop/</link>
       <pubDate>Mon, 23 Oct 2023 13:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/talks/leiden-workshop/</guid>
+      <guid>http://localhost:51994/talks/leiden-workshop/</guid>
       <description>&lt;p&gt;This workshop presentation introduced a combinatorial topological method for analyzing gene regulatory networks. The talk explored how these mathematical frameworks can be used to understand the complex dynamics of high-dimensional biological networks. The presentation focused on obtaining rigorous analytical bounds to identify dynamical structures.&lt;/p&gt;
 </description>
     </item>
