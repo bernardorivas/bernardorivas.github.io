@@ -11,6 +11,10 @@ import type { CourseGroup } from "@/data/types";
 
 const rutgersRealAnalysisDescription =
   "https://math.rutgers.edu/academics/undergraduate/course-descriptions/955-01-640-311-introduction-to-real-analysis-i";
+const rutgersMathReasoningDescription =
+  "https://www.math.rutgers.edu/academics/undergraduate/course-descriptions/954-01-640-300-introduction-to-mathematical-reasoning";
+const rutgersElementaryDifferentialEquationsDescription =
+  "https://math.rutgers.edu/academics/undergraduate/course-descriptions/950-01-640-252-elementary-differential-equations";
 const rutgersOdeEngDescription =
   "https://math.rutgers.edu/academics/undergraduate/course-descriptions/947-01-640-244-differential-equations-for-engineering-and-physics";
 
@@ -41,12 +45,14 @@ export const courseGroups: CourseGroup[] = [
         term: "Summer 2023",
         title: "Introduction to Mathematical Reasoning",
         meta: "640:300",
+        links: [{ label: "Course description", href: rutgersMathReasoningDescription, external: true }],
       },
       {
         id: "course-ode-2022",
         term: "Summer 2022",
         title: "Elementary Differential Equations",
         meta: "640:252 · Online",
+        links: [{ label: "Course description", href: rutgersElementaryDifferentialEquationsDescription, external: true }],
       },
     ],
   },
