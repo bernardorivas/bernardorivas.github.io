@@ -17,7 +17,7 @@ export const homeCopy = {
   h1: "About",
   paragraphs: [
     "I am a mathematician working on nonlinear dynamical systems, with applications in gene regulation, robotics and control. My research builds on topological-combinatorial frameworks to characterize global dynamics under perturbation and model uncertainty.",
-    "My current work addresses two settings where classical theory is hardest to apply: hybrid systems, whose dynamics switch between distinct modes, and data-driven systems, where the dynamics are not fully known and must be reconstructed from partial measurements. Conley theory is well suited to both since it describes the global structure of the dynamics at a topological level of resolution, coarse enough to survive incomplete models and, with the right extension, discontinuous ones.",
+    "My current work develops these ideas in two directions. The first is hybrid systems, which combine continuous behavior with sudden events such as switches, impacts, or resets. The second is data-driven systems, where the equations are not fully known and the dynamics must be reconstructed from observations. In both settings, I aim to understand the system's long-term behavior despite incomplete information or abrupt changes.",
     "Since 2025 I have been a postdoctoral fellow in mathematics at the University of Toledo, working with Bill Kalies on an AFOSR MURI in collaboration with the University of Michigan. Before that, I completed my PhD with Konstantin Mischaikow at Rutgers University, and my BSc and MSc at the Universidade de São Paulo in Brazil.",
   ],
   recentHeading: "Recent work",
