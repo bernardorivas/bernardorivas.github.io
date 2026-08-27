@@ -30,37 +30,17 @@ export const homeCopy = {
 export const researchCopy = {
   h1: "Research",
   intro:
-    "I build combinatorial models of flows and networks, attach topological invariants to recurrent regions, and develop arguments that connect those finite computations back to the continuous dynamics.",
-  figure: {
-    mapAlt:
-      "Rectangular grid with blue directional arrows, blue Morse regions, and an orange central cell in a finite multivalued model of the Van der Pol system",
-    mapLabel: "Multivalued map and Morse sets",
-    graphAlt: "Two-node Morse graph with an orange node above a blue node and one downward arrow",
-    graphLabel: "Corresponding Morse graph",
-    caption:
-      "A Van der Pol example from ongoing work on Rook Fields. The finite multivalued model and its colored Morse sets (left) collapse to a two-node Morse graph carrying the computed index labels (right).",
-  },
+    "Topological tools provide a way to describe the global behavior of a dynamical system without tracking every trajectory in detail. I use finite combinatorial models to identify attractors and recurrent behavior, understand how they are connected, and determine which conclusions persist under perturbation or model uncertainty.",
   softwareHeading: "Software",
   fundingNote: "Supported through AFOSR MURI FA9550-23-1-0400, in collaboration with the University of Michigan.",
   // Sliding-window Lorenz + persistence animation. The pairs are precomputed
   // with ripser on the 3D windowed points; the filtration is capped at 15 so
   // the axis is not dominated by large-scale classes bridging the two wings.
   phFigure: {
-    trajLabel: "Sliding window on a Lorenz trajectory",
-    diagramLabel: "Persistence diagram of the window (H₁)",
     trajAria:
       "Animated Lorenz trajectory in the (x, z) plane with a highlighted sliding time window",
     diagramAria:
       "Animated persistence diagram of the points in the current time window",
-    caption: (
-      <>
-        A trajectory of the Lorenz system observed through a sliding time window [t<sub>i</sub>, t<sub>f</sub>]
-        (left), and the degree-one persistence diagram of the windowed points (right). Each diagram point
-        records a loop in the Vietoris–Rips complexes built on the window, appearing and disappearing at the
-        scales on the axes: revolutions around the two wings show up far from the diagonal, sampling noise
-        stays near it.
-      </>
-    ),
   },
 };
 

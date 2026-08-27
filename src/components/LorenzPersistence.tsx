@@ -297,13 +297,11 @@ export default function LorenzPersistence() {
           <canvas ref={trajCanvasRef} className="ph-canvas" width={480} height={480} aria-label={copy.trajAria}>
             {copy.trajAria}
           </canvas>
-          <span>{copy.trajLabel}</span>
         </div>
         <div className="figure-panel figure-panel-canvas">
           <canvas ref={diagramCanvasRef} className="ph-canvas" width={480} height={480} aria-label={copy.diagramAria}>
             {copy.diagramAria}
           </canvas>
-          <span>{copy.diagramLabel}</span>
         </div>
       </div>
       <div className="figure-controls">
@@ -311,7 +309,6 @@ export default function LorenzPersistence() {
           Pause motion
         </button>
       </div>
-      <figcaption>{copy.caption}</figcaption>
     </figure>
   );
 }
