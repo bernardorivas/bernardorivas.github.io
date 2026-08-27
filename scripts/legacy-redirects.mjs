@@ -3,6 +3,7 @@ import {
   copyFile,
   mkdir,
   readFile,
+  rm,
   writeFile,
 } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -10,6 +11,17 @@ import { dirname, join } from "node:path";
 const OUTPUT = "out";
 const SITE_ORIGIN = "https://bernardorivas.github.io";
 const CHECK_ONLY = process.argv.includes("--check");
+
+// Keep unvetted teaching material in the source checkout without including it
+// in the public GitHub Pages artifact. Removing an item from this list restores
+// it on the next build.
+const UNPUBLISHED_OUTPUTS = [
+  "files/teaching",
+  "teaching/calc-i",
+  "teaching/diffeq",
+  "teaching/math300",
+  "teaching/real-analysis",
+];
 
 // GitHub Pages has no server-side redirects. These small static documents keep
 // links to the Hugo site and earlier hand-written versions useful.
@@ -24,10 +36,10 @@ const REDIRECTS = [
   ["/talks.html", "/talks/"],
   ["/teaching.html", "/teaching/"],
   ["/lean.html", "/lean/"],
-  ["/teaching-calc-i.html", "/teaching/calc-i/"],
-  ["/teaching-diffeq.html", "/teaching/diffeq/"],
-  ["/teaching-math300.html", "/teaching/math300/"],
-  ["/teaching-real-analysis.html", "/teaching/real-analysis/"],
+  ["/teaching-calc-i.html", "/teaching/#course-calc-2021"],
+  ["/teaching-diffeq.html", "/teaching/#course-ode-2022"],
+  ["/teaching-math300.html", "/teaching/#course-reasoning-2023"],
+  ["/teaching-real-analysis.html", "/teaching/#course-real-summer-2024"],
   ["/cv/", "/files/cv.pdf"],
   ["/cv.html", "/files/cv.pdf"],
   ["/resume.html", "/files/cv.pdf"],
@@ -40,16 +52,16 @@ const REDIRECTS = [
   ["/talks/leiden-workshop/", "/talks/#talk-combinatorial-method"],
   ["/talks/summer-meeting/", "/talks/#talk-invariant-manifolds"],
 
-  ["/teaching/su24_real-analysis/", "/teaching/real-analysis/"],
+  ["/teaching/su24_real-analysis/", "/teaching/#course-real-summer-2024"],
   ["/teaching/sp24_real-analysis-ta/", "/teaching/#course-real-spring-2024"],
-  ["/teaching/fa23_real-analysis-ta/", "/teaching/real-analysis/"],
-  ["/teaching/su23_math-reasoning/", "/teaching/math300/"],
+  ["/teaching/fa23_real-analysis-ta/", "/teaching/#course-real-fall-2023"],
+  ["/teaching/su23_math-reasoning/", "/teaching/#course-reasoning-2023"],
   ["/teaching/sp23_differential-equations-ta/", "/teaching/#course-ode-244-2023"],
   ["/teaching/fa22_adv-calc-for-eng-ta/", "/teaching/#course-advanced-calc-2022"],
   ["/teaching/fa22_statistics-ta/", "/teaching/#course-stats-2022"],
-  ["/teaching/su22_differential-equations/", "/teaching/diffeq/"],
+  ["/teaching/su22_differential-equations/", "/teaching/#course-ode-2022"],
   ["/teaching/sp22_differential-equations-ta/", "/teaching/#course-ode-244-2022"],
-  ["/teaching/fa21_calculus-i-ta/", "/teaching/calc-i/"],
+  ["/teaching/fa21_calculus-i-ta/", "/teaching/#course-calc-2021"],
   ["/teaching/wi19_minicourse-differential-equations/", "/teaching/#course-minicourse-2019"],
 
   ["/publication/preprint/", "/research/#pub-global"],
@@ -177,6 +189,18 @@ async function writeRedirects() {
   console.log("Generated " + REDIRECTS.length + " legacy redirects and " + FILE_ALIASES.length + " file aliases.");
 }
 
+async function removeUnpublishedOutputs() {
+  for (const relativePath of UNPUBLISHED_OUTPUTS) {
+    await rm(join(OUTPUT, relativePath), { recursive: true, force: true });
+  }
+}
+
+async function checkUnpublishedOutputs() {
+  for (const relativePath of UNPUBLISHED_OUTPUTS) {
+    await assertMissing(join(OUTPUT, relativePath));
+  }
+}
+
 async function checkRedirects() {
   for (const [legacyPath, target] of REDIRECTS) {
     const content = await readFile(redirectFile(legacyPath), "utf8");
@@ -202,6 +226,8 @@ async function checkRedirects() {
 await access(OUTPUT);
 if (CHECK_ONLY) {
   await checkRedirects();
+  await checkUnpublishedOutputs();
 } else {
   await writeRedirects();
+  await removeUnpublishedOutputs();
 }

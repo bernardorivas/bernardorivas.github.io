@@ -1,7 +1,7 @@
 // Transcribed verbatim from $OLD/teaching.html.
 //
 // Arrow-glyph decision: the source inlines the arrow glyph in each <a> text
-// node ("Course materials →", "Course description ↗") rather than putting it
+// node (for example, "Course description ↗") rather than putting it
 // in a separate element. Even so, labels below are stored WITHOUT the arrow:
 // the CourseLink type's own doc comment ("external renders '↗', internal
 // '→'") establishes that the rendering component derives the glyph from the
@@ -34,24 +34,19 @@ export const courseGroups: CourseGroup[] = [
         term: "Summer 2024",
         title: "Introduction to Real Analysis I",
         meta: "640:311",
-        links: [
-          { label: "Course materials", href: "/teaching/real-analysis" },
-          { label: "Course description", href: rutgersRealAnalysisDescription, external: true },
-        ],
+        links: [{ label: "Course description", href: rutgersRealAnalysisDescription, external: true }],
       },
       {
         id: "course-reasoning-2023",
         term: "Summer 2023",
         title: "Introduction to Mathematical Reasoning",
         meta: "640:300",
-        links: [{ label: "Course materials", href: "/teaching/math300" }],
       },
       {
         id: "course-ode-2022",
         term: "Summer 2022",
         title: "Elementary Differential Equations",
         meta: "640:252 · Online",
-        links: [{ label: "Course materials", href: "/teaching/diffeq" }],
       },
     ],
   },
@@ -70,10 +65,7 @@ export const courseGroups: CourseGroup[] = [
         term: "Fall 2023",
         title: "Introduction to Real Analysis I",
         meta: "640:311",
-        links: [
-          { label: "Selected workshops", href: "/teaching/real-analysis" },
-          { label: "Course description", href: rutgersRealAnalysisDescription, external: true },
-        ],
+        links: [{ label: "Course description", href: rutgersRealAnalysisDescription, external: true }],
       },
       {
         id: "course-ode-244-2023",
@@ -121,7 +113,6 @@ export const courseGroups: CourseGroup[] = [
         title: "Calculus I for the Life and Social Sciences",
         meta: "640:135",
         links: [
-          { label: "Workshops", href: "/teaching/calc-i" },
           {
             label: "Course description",
             href: "https://math.rutgers.edu/academics/undergraduate/course-descriptions/938-01-640-135-calculus-i",

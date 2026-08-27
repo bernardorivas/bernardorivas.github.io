@@ -13,6 +13,20 @@ describe("route visibility", () => {
     expect(publicSitemapPaths).not.toContain("/lean");
   });
 
+  it("keeps unvetted teaching materials out of public listings", () => {
+    const materialRoutes = [
+      "/teaching/calc-i",
+      "/teaching/diffeq",
+      "/teaching/math300",
+      "/teaching/real-analysis",
+    ];
+
+    for (const route of materialRoutes) {
+      expect(isDraftRoute(route)).toBe(true);
+      expect(publicSitemapPaths).not.toContain(route);
+    }
+  });
+
   it("prevents search engines from indexing drafts", () => {
     const metadata = buildMetadata({
       title: "Lean — Bernardo Rivas",

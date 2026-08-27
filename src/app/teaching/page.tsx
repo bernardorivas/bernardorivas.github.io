@@ -6,7 +6,7 @@ import CourseEntry from "@/components/CourseEntry";
 export const metadata = buildMetadata({
   title: "Teaching — Bernardo Rivas",
   description:
-    "Courses taught by Bernardo Rivas in analysis, differential equations, mathematical reasoning, statistics, and data science, with course materials.",
+    "Courses taught by Bernardo Rivas in analysis, differential equations, mathematical reasoning, statistics, and data science.",
   path: "/teaching",
 });
 
