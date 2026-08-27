@@ -87,7 +87,7 @@ const prepControl: Publication = {
 };
 
 // ---------------------------------------------------------------------------
-// Hybrid and switched systems
+// Hybrid dynamical systems
 // ---------------------------------------------------------------------------
 
 const pubHybrid: Publication = {
@@ -121,7 +121,7 @@ export const researchGroups: { title: string; id: string; entries: Publication[]
     entries: [pubBoolean, pubGlobal, prepInference, prepControl],
   },
   {
-    title: "Hybrid and switched systems",
+    title: "Hybrid dynamical systems",
     id: "hybrid-title",
     entries: [pubHybrid, prepAttractor],
   },
