@@ -224,8 +224,11 @@ export default function LorenzPersistence() {
     }
 
     function syncToggle() {
+      const label = paused ? "Play animation" : "Pause animation";
       toggle!.setAttribute("aria-pressed", String(paused));
-      toggle!.textContent = paused ? "Play motion" : "Pause motion";
+      toggle!.setAttribute("aria-label", label);
+      toggle!.setAttribute("title", label);
+      toggle!.dataset.state = paused ? "paused" : "playing";
     }
 
     function animate(timestamp: number) {
@@ -307,9 +310,15 @@ export default function LorenzPersistence() {
         </div>
       </div>
       <div className="figure-controls">
-        <button ref={toggleRef} type="button" className="simulation-toggle" aria-pressed={false}>
-          Pause motion
-        </button>
+        <button
+          ref={toggleRef}
+          type="button"
+          className="simulation-toggle"
+          aria-label="Pause animation"
+          aria-pressed={false}
+          data-state="playing"
+          title="Pause animation"
+        />
       </div>
     </figure>
   );
