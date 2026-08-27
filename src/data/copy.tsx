@@ -37,8 +37,8 @@ export const researchCopy = {
   // with ripser on the 3D windowed points; the filtration is capped at 15 so
   // the axis is not dominated by large-scale classes bridging the two wings.
   phFigure: {
-    trajLabel: "Segment of trajectory on Lorenz system",
-    diagramLabel: "Persistence diagram of the segment (H_1)",
+    trajLabel: "Timeseries data from the Lorenz system",
+    diagramLabel: "Persistence diagram of the data (H_1)",
     trajAria:
       "Animated Lorenz trajectory in the (x, z) plane with a highlighted sliding time window",
     diagramAria:
