@@ -319,16 +319,13 @@ h3 {
   font-size: 1.9rem;
 }
 
-/* No cap of its own: the prose shares the content column with the headings,
-   rules and entry lists, so every element on the page has one right edge. The
-   measure is set by --column minus the sidebar, not per element. */
+/* Keep introductory prose at a comfortable reading measure, independent of the
+   wider rules and publication lists below it. */
 .page-intro {
+  max-width: 70ch;
   margin: 0 0 0.5rem;
-  /* Justified without hyphenation opens rivers of white space at this measure,
-     so the two go together. `lang="en"` on <html> is what lets the browser
-     hyphenate. */
-  text-align: justify;
-  hyphens: auto;
+  text-align: left;
+  hyphens: none;
   text-wrap: pretty;
 }
 

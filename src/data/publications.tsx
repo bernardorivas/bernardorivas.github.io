@@ -1,6 +1,6 @@
 // Papers, grouped by research theme rather than by publication status: the
 // Research page is the single place where the work is listed, so the status
-// (accepted / submitted / in preparation) lives on each entry's venue line and
+// (published / in preparation) lives on each entry's venue line when relevant,
 // the grouping carries the theme instead.
 //
 // The three groups follow the three directions named in his research statement:
@@ -52,7 +52,6 @@ const pubBoolean: Publication = {
   title: "Boolean Models Coarsely Sample Continuous Dynamics of Regulatory Networks",
   url: "https://arxiv.org/abs/2606.14925",
   authors: "B. Cummins, M. Gameiro, T. Gedeon, K. Mischaikow, B. Rivas",
-  venue: <>Submitted to <em>PLOS Computational Biology</em>.</>,
   year: "2026",
   arxivId: "2606.14925",
 };
@@ -95,7 +94,6 @@ const pubHybrid: Publication = {
   title: "Conley Index Theory for Hybrid Systems",
   url: "https://arxiv.org/abs/2606.18501",
   authors: "B. Rivas, W. Kalies",
-  venue: <>Submitted to <em>Nonlinear Analysis: Hybrid Systems</em>.</>,
   year: "2026",
   arxivId: "2606.18501",
 };
