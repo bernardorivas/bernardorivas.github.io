@@ -30,6 +30,11 @@ export default function Research() {
                 <PublicationEntry key={e.id} entry={e} />
               ))}
             </div>
+            {g.relatedWork && (
+              <p className="related-work">
+                Related work: <a href={g.relatedWork.url}>{g.relatedWork.title}</a>
+              </p>
+            )}
           </section>
         ))}
 
