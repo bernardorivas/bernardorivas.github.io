@@ -107,12 +107,7 @@ const prepAttractor: Publication = {
 };
 
 // Group order puts the published paper first.
-export const researchGroups: {
-  title: string;
-  id: string;
-  entries: Publication[];
-  relatedWork?: { title: string; url: string };
-}[] = [
+export const researchGroups: { title: string; id: string; entries: Publication[] }[] = [
   {
     title: "Learned and data-driven dynamics",
     id: "learned-title",
@@ -127,10 +122,6 @@ export const researchGroups: {
     title: "Hybrid dynamical systems",
     id: "hybrid-title",
     entries: [pubHybrid, prepAttractor],
-    relatedWork: {
-      title: pubLearned.title,
-      url: pubLearned.url!,
-    },
   },
 ];
 

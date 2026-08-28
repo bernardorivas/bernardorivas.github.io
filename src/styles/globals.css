@@ -423,14 +423,6 @@ section { padding: 2.2rem 0 0; }
   font-variant-numeric: lining-nums tabular-nums;
 }
 
-.related-work {
-  margin: 0.2rem 0 0;
-  padding-left: calc(var(--rail) + 1.4rem);
-  color: var(--ink-soft);
-  font-family: var(--font-sans);
-  font-size: 0.82rem;
-}
-
 /* Research figure */
 .research-figure {
   margin: 1.8rem 0 0;
@@ -705,7 +697,6 @@ section { padding: 2.2rem 0 0; }
 
   .entry { grid-template-columns: 1fr; gap: 0.25rem; }
   .entry .rail { padding-top: 0; }
-  .related-work { padding-left: 0; }
 }
 
 /* Below this the sidebar cannot hold a portrait and a readable column beside
