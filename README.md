@@ -73,7 +73,7 @@ the footer carries only the copyright line.
 
 Static assets (PDFs, images) are under `public/`; `scripts/check-assets.sh`
 pins a few known-fragile ones (exact workshop-PDF counts, intentional gaps in
-the real-analysis series, the `og-lorenz-postdoc-math-2026.jpg` size budget).
+the real-analysis series, the `og-lorenz-smooth-2026.jpg` size budget).
 
 `public/files/cv.pdf` is a copy of `../curriculum-vitae/main-research.pdf`, which is
 built from the `.tex` files in that folder and is the canonical academic CV (the

@@ -8,18 +8,34 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "public" / "og-lorenz-postdoc-math-2026.jpg"
-WIDTH, HEIGHT, SCALE = 1200, 630, 2
+OUTPUT = ROOT / "public" / "og-lorenz-smooth-2026.jpg"
+WIDTH, HEIGHT, SCALE = 1200, 630, 4
 
 PAPER = (250, 249, 245)
 INK = (24, 28, 34)
 NAVY = (23, 61, 99)
-GRAPH = (113, 136, 163)
-GOLD = (135, 89, 31)
 
 
 def point(x: float, y: float) -> tuple[int, int]:
     return round(x * SCALE), round(y * SCALE)
+
+
+def smooth_polyline(points: np.ndarray, subdivisions: int = 4) -> np.ndarray:
+    tangents = np.empty_like(points)
+    tangents[0] = points[1] - points[0]
+    tangents[-1] = points[-1] - points[-2]
+    tangents[1:-1] = (points[2:] - points[:-2]) / 2
+
+    u = np.linspace(0, 1, subdivisions, endpoint=False)[:, None]
+    h00 = 2 * u**3 - 3 * u**2 + 1
+    h10 = u**3 - 2 * u**2 + u
+    h01 = -2 * u**3 + 3 * u**2
+    h11 = u**3 - u**2
+    segments = [
+        h00 * points[i] + h10 * tangents[i] + h01 * points[i + 1] + h11 * tangents[i + 1]
+        for i in range(len(points) - 1)
+    ]
+    return np.vstack([*segments, points[-1:]])
 
 
 def draw_lorenz(layer: Image.Image, data: dict) -> None:
@@ -32,23 +48,13 @@ def draw_lorenz(layer: Image.Image, data: dict) -> None:
     x_offset = (left + right - (x_max - x_min) * scale) / 2
     z_offset = (top + bottom - (z_max - z_min) * scale) / 2
 
-    def project(sample) -> tuple[int, int]:
+    def project(sample) -> tuple[float, float]:
         x, z = sample
-        return point(x_offset + (x - x_min) * scale, bottom - z_offset + top - (z - z_min) * scale)
+        return x_offset + (x - x_min) * scale, bottom - z_offset + top - (z - z_min) * scale
 
-    projected = [project(sample) for sample in trajectory]
-    draw.line(projected, fill=(*GRAPH, 76), width=1 * SCALE, joint="curve")
-
-    frame = next(
-        frame for frame in data["frames"]
-        if sum(death - birth > 1.5 for birth, death in frame["h1"]) >= 2
-    )
-    segment = projected[frame["i0"]:frame["i1"]]
-    draw.line(segment, fill=(*NAVY, 165), width=2 * SCALE, joint="curve")
-    if segment:
-        x, y = segment[-1]
-        radius = 4 * SCALE
-        draw.ellipse((x - radius, y - radius, x + radius, y + radius), fill=(*GOLD, 210))
+    projected = np.asarray([project(sample) for sample in trajectory])
+    smoothed = smooth_polyline(projected)
+    draw.line([point(x, y) for x, y in smoothed], fill=(*NAVY, 92), width=SCALE, joint="curve")
 
 
 def fade_visuals(layer: Image.Image) -> Image.Image:

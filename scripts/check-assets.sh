@@ -6,5 +6,5 @@ test $(find public/files/teaching/calculus-i -name 'workshop-*.pdf' | wc -l) -eq
 test ! -f public/files/teaching/real-analysis/workshop-04.pdf   # intentional gap
 test ! -f public/files/teaching/real-analysis/workshop-06.pdf   # intentional gap
 test ! -f public/assets/og-formalized-dynamics.png
-test $(wc -c < public/og-lorenz-postdoc-math-2026.jpg) -lt 300000
+test $(wc -c < public/og-lorenz-smooth-2026.jpg) -lt 300000
 echo OK
