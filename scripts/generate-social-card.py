@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "public" / "og-lorenz-postdoc-2026.jpg"
+OUTPUT = ROOT / "public" / "og-lorenz-postdoc-math-2026.jpg"
 WIDTH, HEIGHT, SCALE = 1200, 630, 2
 
 PAPER = (250, 249, 245)
@@ -73,9 +73,13 @@ def main() -> None:
 
     draw = ImageDraw.Draw(image, "RGBA")
     serif = ImageFont.truetype("/System/Library/Fonts/Supplemental/Iowan Old Style.ttc", 80 * SCALE)
-    sans = ImageFont.truetype("/System/Library/Fonts/Helvetica.ttc", 28 * SCALE)
-    draw.text(point(58, 252), "Bernardo Rivas", font=serif, fill=(*INK, 255), anchor="la")
-    draw.text(point(63, 357), "Postdoc in Mathematics", font=sans, fill=(*NAVY, 255), anchor="la")
+    sans = ImageFont.truetype("/System/Library/Fonts/Avenir Next.ttc", 27 * SCALE, index=5)
+    name = "Bernardo Rivas"
+    subtitle = "Postdoc - Mathematics"
+    name_x, name_y = 58, 252
+    name_center = name_x + draw.textlength(name, font=serif) / (2 * SCALE)
+    draw.text(point(name_x, name_y), name, font=serif, fill=(*INK, 255), anchor="la")
+    draw.text(point(name_center, 359), subtitle, font=sans, fill=(*NAVY, 255), anchor="ma")
 
     image = image.convert("RGB").resize((WIDTH, HEIGHT), Image.Resampling.LANCZOS)
     image.save(OUTPUT, quality=90, optimize=True, progressive=True)
