@@ -4,7 +4,7 @@ import { isDraftRoute } from "@/data/routes";
 export const SITE_URL = "https://bernardorivas.github.io";
 
 export const FAVICON = "/favicon.png";
-export const SOCIAL_IMAGE = "/og-dynamics-2026.jpg";
+export const SOCIAL_IMAGE = "/og-lorenz-2026.jpg";
 export const SOCIAL_IMAGE_ALT = "Bernardo Rivas — Mathematics · nonlinear dynamical systems";
 
 export function buildMetadata(opts: {
