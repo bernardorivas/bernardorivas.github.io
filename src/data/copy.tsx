@@ -60,7 +60,7 @@ export const talksCopy = {
 
 export const leanCopy = {
   h1: "Lean",
-  intro: "I am interested in using Lean in dynamical systems and topology. I will add projects here as they develop.",
+  intro: "I have been using Lean to formalize toy projects and design courses. If that's something you're interested in, let's talk. (:",
   projectsHeading: "Projects",
 };
 

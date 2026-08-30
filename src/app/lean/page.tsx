@@ -4,7 +4,7 @@ import { leanProjects } from "@/data/lean-projects";
 
 export const metadata = buildMetadata({
   title: "Lean — Bernardo Rivas",
-  description: "Bernardo Rivas on using Lean in dynamical systems and topology.",
+  description: "Bernardo Rivas on using Lean for formalization and course design.",
   path: "/lean",
 });
 
