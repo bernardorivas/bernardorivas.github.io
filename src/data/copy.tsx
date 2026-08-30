@@ -58,17 +58,10 @@ export const talksCopy = {
 // Lean
 // ---------------------------------------------------------------------------
 
-// The Conley project, the Formal Lorenz experiment, and the graph-length
-// experiment are owned by `leanProjects` in src/data/lean-projects.tsx.
 export const leanCopy = {
   h1: "Lean",
-  intro:
-    "I use Lean 4 to check the topology behind computer-assisted dynamics. The current focus is the topological foundation of Conley index theory, alongside smaller experiments in analysis and rigorous numerics.",
-  otherExperimentsHeading: "Other experiments",
-  // The RealAnalysisGame line was removed: the local checkout has no commits of
-  // his, so there was no fork to describe.
-  teachingNote:
-    "These formalizations are still local; source and notes will appear here once the repositories are ready.",
+  intro: "I am interested in using Lean in dynamical systems and topology. I will add projects here as they develop.",
+  projectsHeading: "Projects",
 };
 
 // ---------------------------------------------------------------------------
