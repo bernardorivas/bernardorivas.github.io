@@ -18,6 +18,7 @@ export const siteRoutes = [
   { href: "/teaching/real-analysis", status: "draft" },
   { href: "/talks", navLabel: "Talks", status: "public" },
   { href: "/lean", navLabel: "Lean", status: "draft" },
+  { href: "/hobbies", navLabel: "Hobbies", status: "draft" },
 ] satisfies readonly SiteRoute[];
 
 export const publicNavItems = siteRoutes.flatMap((route) =>

@@ -13,6 +13,12 @@ describe("route visibility", () => {
     expect(publicSitemapPaths).not.toContain("/lean");
   });
 
+  it("keeps Hobbies available as an unlisted draft", () => {
+    expect(isDraftRoute("/hobbies")).toBe(true);
+    expect(publicNavItems).not.toContainEqual({ label: "Hobbies", href: "/hobbies" });
+    expect(publicSitemapPaths).not.toContain("/hobbies");
+  });
+
   it("keeps unvetted teaching materials out of public listings", () => {
     const materialRoutes = [
       "/teaching/calc-i",
