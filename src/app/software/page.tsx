@@ -28,8 +28,6 @@ export default function Software() {
             ))}
           </div>
         </section>
-
-        <p className="note">{softwareCopy.fundingNote}</p>
       </div>
     </main>
   );
