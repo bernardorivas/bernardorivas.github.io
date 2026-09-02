@@ -1,14 +1,25 @@
 import { describe, it, expect } from "vitest";
-import { researchPublications, recentPublications } from "@/data/publications";
+import { researchPublicationGroups, researchPublications, recentPublications } from "@/data/publications";
 import { talks } from "@/data/talks";
 
 describe("publications", () => {
-  it("has one list of 9 papers", () => {
+  it("has nine research entries", () => {
     expect(researchPublications).toHaveLength(9);
   });
   it("lists every paper exactly once", () => {
     const ids = researchPublications.map(e => e.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+  it("groups public papers by year and leaves unfinished work undated", () => {
+    expect(researchPublicationGroups.map(group => group.title)).toEqual(["2026", "2024", "In preparation"]);
+    expect(researchPublicationGroups[0].publications.map(entry => entry.id)).toEqual([
+      "prep-latent",
+      "pub-learned",
+      "pub-hybrid",
+      "pub-boolean",
+    ]);
+    expect(researchPublicationGroups[1].publications.map(entry => entry.id)).toEqual(["pub-global"]);
+    expect(researchPublicationGroups[2].publications.every(entry => entry.year === undefined)).toBe(true);
   });
   it("keeps arXiv ids verbatim (including future-dated ones)", () => {
     const ids = researchPublications.map(e => e.arxivId).filter(Boolean);

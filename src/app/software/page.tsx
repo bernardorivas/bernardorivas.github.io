@@ -16,7 +16,7 @@ export default function Software() {
     <main id="main-content" tabIndex={-1}>
       <div className="wrap page">
         <h1 className="page-title">{softwareCopy.h1}</h1>
-        <p className="page-intro">{softwareCopy.intro}</p>
+        <p className="page-intro software-intro">{softwareCopy.intro}</p>
 
         <LorenzPersistence />
 

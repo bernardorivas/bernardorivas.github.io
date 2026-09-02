@@ -1,5 +1,5 @@
-// Papers form one editorially ordered list. Publication status lives on each
-// entry rather than in separate sections.
+// Dated papers are grouped in reverse chronological order. Unfinished work
+// remains undated and follows the public papers.
 
 import type { Publication } from "@/data/types";
 
@@ -100,17 +100,27 @@ const prepAttractor: Publication = {
   venue: "In preparation.",
 };
 
-export const researchPublications: Publication[] = [
-  pubLatent,
-  pubLearned,
-  prepCycling,
-  pubBoolean,
-  prepInference,
-  pubHybrid,
-  prepAttractor,
-  prepControl,
-  pubGlobal,
+export const researchPublicationGroups: { id: string; title: string; publications: Publication[] }[] = [
+  {
+    id: "research-2026",
+    title: "2026",
+    publications: [pubLatent, pubLearned, pubHybrid, pubBoolean],
+  },
+  {
+    id: "research-2024",
+    title: "2024",
+    publications: [pubGlobal],
+  },
+  {
+    id: "research-in-preparation",
+    title: "In preparation",
+    publications: [prepCycling, prepAttractor, prepInference, prepControl],
+  },
 ];
+
+export const researchPublications: Publication[] = researchPublicationGroups.flatMap(
+  (group) => group.publications,
+);
 
 // The three most recent papers, shown on the landing page.
 export const recentPublications: Publication[] = [pubLatent, pubLearned, pubHybrid];

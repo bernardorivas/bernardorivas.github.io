@@ -329,6 +329,8 @@ h3 {
   text-wrap: pretty;
 }
 
+.software-intro { max-width: none; }
+
 .note {
   max-width: 68ch;
   margin: 2rem 0 0;
@@ -367,6 +369,9 @@ section { padding: 2.2rem 0 0; }
 }
 
 .entries { display: flex; flex-direction: column; }
+
+.publication-year-group .entry { grid-template-columns: minmax(0, 1fr); }
+.publication-year-group .entry .rail { display: none; }
 
 .entry {
   display: grid;
