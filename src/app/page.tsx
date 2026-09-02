@@ -19,7 +19,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(profile.jsonLd) }}
       />
-      <div className="wrap page">
+      <div className="wrap page home-page">
         {/* The portrait and contact row live in the persistent sidebar. */}
         <h1 className="page-title">{homeCopy.h1}</h1>
         {homeCopy.paragraphs.map((p) => (

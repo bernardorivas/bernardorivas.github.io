@@ -331,6 +331,16 @@ h3 {
 
 .software-intro { max-width: none; }
 
+.home-page {
+  --rail: 3rem;
+}
+
+.home-page .page-intro { max-width: none; }
+
+@media (min-width: 701px) {
+  .home-page .entry { gap: 0.8rem; }
+}
+
 .note {
   max-width: 68ch;
   margin: 2rem 0 0;
