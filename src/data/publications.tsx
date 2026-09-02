@@ -62,7 +62,7 @@ const pubGlobal: Publication = {
   id: "pub-global",
   title: "Global Dynamics of Ordinary Differential Equations: Wall Labelings, Conley Complexes, and Ramp Systems",
   url: "https://arxiv.org/abs/2412.11078",
-  authors: "M. Gameiro, T. Gedeon, H. Kokubu, K. Mischaikow, H. Oka, B. Rivas, E. Vieira, D. Gameiro",
+  authors: "M. Gameiro, T. Gedeon, H. Kokubu, K. Mischaikow, H. Oka, B. Rivas, E. Vieira",
   year: "2024",
   arxivId: "2412.11078",
 };
