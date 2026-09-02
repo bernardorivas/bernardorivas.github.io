@@ -15,17 +15,17 @@ export default function Research() {
     <main id="main-content" tabIndex={-1}>
       <div className="wrap page">
         <h1 className="page-title">{researchCopy.h1}</h1>
-
-        {researchPublicationGroups.map((group) => (
-          <section className="publication-year-group" key={group.id} aria-labelledby={group.id}>
-            <h2 className="group-head" id={group.id}>{group.title}</h2>
-            <div className="entries">
-              {group.publications.map((entry) => (
-                <PublicationEntry key={entry.id} entry={entry} />
-              ))}
-            </div>
-          </section>
-        ))}
+        <div className="entries">
+          {researchPublicationGroups.flatMap((group) =>
+            group.publications.map((entry, index) => (
+              <PublicationEntry
+                key={entry.id}
+                entry={entry}
+                railLabel={index === 0 ? group.title : null}
+              />
+            )),
+          )}
+        </div>
       </div>
     </main>
   );

@@ -1,17 +1,24 @@
 import type { Publication } from "@/data/types";
 import { highlightSelf } from "@/lib/authors";
 
-// One paper: year in the left rail, then title (linked to the paper itself),
-// authors, venue-or-status, and the direct links. Entries in preparation have
-// no year and no links — their venue line reads "In preparation."
-export default function PublicationEntry({ entry }: { entry: Publication }) {
+// One paper: a year or group label in the left rail, then title, authors,
+// venue-or-status, and direct links. Passing null leaves the rail blank.
+export default function PublicationEntry({
+  entry,
+  railLabel,
+}: {
+  entry: Publication;
+  railLabel?: string | null;
+}) {
   const links = [
     ...(entry.arxivId ? [{ label: `arXiv:${entry.arxivId}`, href: `https://arxiv.org/abs/${entry.arxivId}` }] : []),
     ...(entry.links ?? []),
   ];
+  const displayedRail = railLabel === undefined ? entry.year : railLabel;
+
   return (
     <article className="entry" aria-labelledby={entry.id}>
-      <div className="rail">{entry.year}</div>
+      <div className="rail">{displayedRail}</div>
       <div className="body">
         <h3 className="title" id={entry.id}>
           {entry.url ? <a href={entry.url}>{entry.title}</a> : entry.title}

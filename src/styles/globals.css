@@ -370,9 +370,6 @@ section { padding: 2.2rem 0 0; }
 
 .entries { display: flex; flex-direction: column; }
 
-.publication-year-group .entry { grid-template-columns: minmax(0, 1fr); }
-.publication-year-group .entry .rail { display: none; }
-
 .entry {
   display: grid;
   grid-template-columns: var(--rail) minmax(0, 1fr);
@@ -390,6 +387,7 @@ section { padding: 2.2rem 0 0; }
   font-size: 0.78rem;
   font-variant-numeric: lining-nums tabular-nums;
   line-height: 1.5;
+  white-space: nowrap;
 }
 
 .entry .body { min-width: 0; }
