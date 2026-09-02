@@ -1,5 +1,10 @@
 // Dated papers are grouped in reverse chronological order. Unfinished work
 // remains undated and follows the public papers.
+// Year policy: once published, use the year in the definitive venue citation,
+// even if the arXiv version appeared earlier. Use the arXiv v1 year only while
+// a paper remains a preprint; use "forthcoming" or "in press" before a venue
+// assigns a year, and omit the year for work in preparation. Thus pubLearned is
+// dated 2026 from its PMLR citation, not 2025 from its arXiv posting.
 
 import type { Publication } from "@/data/types";
 
