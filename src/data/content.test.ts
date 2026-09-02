@@ -29,6 +29,10 @@ describe("publications", () => {
     const learned = researchPublications.find(e => e.id === "pub-learned")!;
     expect(learned.url).toBe("https://proceedings.mlr.press/v331/rivas26a.html");
     expect(learned.arxivId).toBeUndefined();
+    expect(learned.links).toContainEqual({
+      label: "paper",
+      href: "https://proceedings.mlr.press/v331/rivas26a.html",
+    });
   });
   it("promotes the completed latent-space paper to an arXiv preprint", () => {
     const latent = researchPublications.find(e => e.id === "prep-latent")!;

@@ -7,8 +7,8 @@ import type { Publication } from "@/data/types";
 // Learned and data-driven dynamics
 // ---------------------------------------------------------------------------
 
-// Published, not a preprint: the title links to the PMLR record (open access,
-// so nothing is lost by dropping the arXiv link). Venue verbatim from
+// Published, not a preprint: the title and explicit paper link use the
+// permanent open-access PMLR record. Venue verbatim from
 // curriculum-vitae/publication.tex.
 const pubLearned: Publication = {
   id: "pub-learned",
@@ -17,7 +17,10 @@ const pubLearned: Publication = {
   authors: "B. Rivas, K. Iwasaki, W. Kalies, A. Bloch, M. Ghaffari",
   venue: <>Proceedings of the 8th Annual Learning for Dynamics and Control Conference (L4DC). PMLR 331:1663–1674.</>,
   year: "2026",
-  links: [{ label: "code", href: "https://github.com/bernardorivas/L4DC-2026" }],
+  links: [
+    { label: "paper", href: "https://proceedings.mlr.press/v331/rivas26a.html" },
+    { label: "code", href: "https://github.com/bernardorivas/L4DC-2026" },
+  ],
 };
 
 const prepCycling: Publication = {
