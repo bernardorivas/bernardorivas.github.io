@@ -12,6 +12,7 @@ export const siteRoutes = [
   { href: "/", status: "public" },
   { href: "/research", navLabel: "Research", status: "public" },
   { href: "/teaching", navLabel: "Teaching", status: "public" },
+  { href: "/software", navLabel: "Software", status: "public" },
   { href: "/teaching/calc-i", status: "draft" },
   { href: "/teaching/diffeq", status: "draft" },
   { href: "/teaching/math300", status: "draft" },

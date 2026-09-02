@@ -1,4 +1,4 @@
-// Research software, listed on the Research page. One line each, linking
+// Research software, listed on the Software page. One line each, linking
 // straight to the repository or documentation.
 
 import type { Project } from "@/data/types";

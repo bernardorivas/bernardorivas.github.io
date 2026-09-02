@@ -1,14 +1,5 @@
-// Papers, grouped by research theme rather than by publication status: the
-// Research page is the single place where the work is listed, so the status
-// (published / in preparation) lives on each entry's venue line when relevant,
-// the grouping carries the theme instead.
-//
-// The three groups follow the three directions named in his research statement:
-// topological validation of data-driven and learned systems, combinatorial
-// models for regulatory networks, and Conley theory for hybrid systems. Several
-// papers are hybrid AND learned (both L4DC papers are literally about learned
-// hybrid systems); they are grouped by method, so the hybrid group holds the
-// pure Conley-theoretic work.
+// Papers form one editorially ordered list. Publication status lives on each
+// entry rather than in separate sections.
 
 import type { Publication } from "@/data/types";
 
@@ -36,11 +27,14 @@ const prepCycling: Publication = {
   venue: "In preparation.",
 };
 
-const prepLatent: Publication = {
+const pubLatent: Publication = {
   id: "prep-latent",
-  title: "Rigorously Characterizing High-dimensional Dynamics by Combinatorial-Topological Methods on a Latent Space",
-  withAuthors: "P. Bailon, M. Gameiro, B. Gelb, M. Kramar, W. Kalies, K. Mischaikow",
-  venue: "In preparation.",
+  title: "Characterizing High-dimensional Dynamics by Combinatorial-Topological Methods on a Latent Space",
+  url: "https://arxiv.org/abs/2609.01509",
+  authors: "P. Bailon, M. Gameiro, B. Gelb, W. Kalies, M. Kramar, K. Mischaikow, B. Rivas, E. Vieira",
+  year: "2026",
+  arxivId: "2609.01509",
+  links: [{ label: "code", href: "https://github.com/begelb/latent_dynamics/tree/paper" }],
 };
 
 // ---------------------------------------------------------------------------
@@ -106,24 +100,17 @@ const prepAttractor: Publication = {
   venue: "In preparation.",
 };
 
-// Group order puts the published paper first.
-export const researchGroups: { title: string; id: string; entries: Publication[] }[] = [
-  {
-    title: "Learned and data-driven dynamics",
-    id: "learned-title",
-    entries: [pubLearned, prepCycling, prepLatent],
-  },
-  {
-    title: "Regulatory networks",
-    id: "networks-title",
-    entries: [pubBoolean, pubGlobal, prepInference, prepControl],
-  },
-  {
-    title: "Hybrid dynamical systems",
-    id: "hybrid-title",
-    entries: [pubHybrid, prepAttractor],
-  },
+export const researchPublications: Publication[] = [
+  pubLatent,
+  pubLearned,
+  prepCycling,
+  pubBoolean,
+  prepInference,
+  pubHybrid,
+  prepAttractor,
+  prepControl,
+  pubGlobal,
 ];
 
 // The three most recent papers, shown on the landing page.
-export const recentPublications: Publication[] = [pubLearned, pubHybrid, pubBoolean];
+export const recentPublications: Publication[] = [pubLatent, pubLearned, pubHybrid];

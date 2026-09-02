@@ -29,9 +29,17 @@ export const homeCopy = {
 
 export const researchCopy = {
   h1: "Research",
+};
+
+// ---------------------------------------------------------------------------
+// Software
+// ---------------------------------------------------------------------------
+
+export const softwareCopy = {
+  h1: "Software",
   intro:
     "Topological tools provide a way to describe the global behavior of a dynamical system without tracking every trajectory in detail. The goal is to identify attractors and recurrent structure, understand how they are connected, and determine which conclusions persist under perturbation or model uncertainty.",
-  softwareHeading: "Software",
+  projectsHeading: "Projects",
   fundingNote: "Supported through AFOSR MURI FA9550-23-1-0400, in collaboration with the University of Michigan.",
   // Sliding-window Lorenz + persistence animation. The pairs are precomputed
   // with ripser on the 3D windowed points; the filtration is capped at 15 so

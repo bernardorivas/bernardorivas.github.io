@@ -1,6 +1,6 @@
 "use client";
 
-// Two-panel animation for the Research page: a sliding window [t_i, t_f] along
+// Two-panel animation for the Software page: a sliding window [t_i, t_f] along
 // a Lorenz trajectory (left) and the degree-one persistence diagram of the
 // windowed points (right). All persistence pairs are precomputed offline
 // (scratchpad gen_lorenz_ph.py, ripser on the 3D window subsample) and shipped
@@ -12,7 +12,7 @@
 // hydration.
 
 import { useEffect, useRef } from "react";
-import { researchCopy } from "@/data/copy";
+import { softwareCopy } from "@/data/copy";
 import data from "@/data/lorenz-ph.json";
 
 // Projection window for the (x, z) plane, matching the retired lib/lorenz.ts.
@@ -292,7 +292,7 @@ export default function LorenzPersistence() {
     };
   }, []);
 
-  const copy = researchCopy.phFigure;
+  const copy = softwareCopy.phFigure;
   return (
     <figure className="research-figure" ref={figureRef}>
       <div className="figure-pair figure-pair-even">

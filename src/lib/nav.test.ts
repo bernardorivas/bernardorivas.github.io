@@ -3,6 +3,7 @@ import { navCurrent } from "@/lib/nav";
 
 describe("navCurrent", () => {
   it("marks exact route current", () => { expect(navCurrent("/research", "/research")).toBe(true); });
+  it("marks Software current", () => { expect(navCurrent("/software", "/software")).toBe(true); });
   it("marks Teaching current on subpages (section-level)", () => {
     expect(navCurrent("/teaching/calc-i", "/teaching")).toBe(true);
     expect(navCurrent("/teaching", "/teaching")).toBe(true);

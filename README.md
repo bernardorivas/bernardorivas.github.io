@@ -13,8 +13,9 @@ repository. No stub pages, no landing-page furniture.
 | Route | What it is |
 | --- | --- |
 | `/` | Photo, three sentences, email, and the three most recent papers |
-| `/research` | Papers grouped by theme, plus research software. This is the only list of papers on the site |
+| `/research` | One list of papers, preprints, and work in preparation |
 | `/teaching` | Courses by institution and role, each linking to its materials or its official course page |
+| `/software` | Topological-dynamics introduction, Lorenz persistence animation, and research software |
 | `/talks` | One reverse-chronological list |
 | `/lean` | Draft/unlisted Lean 4 formalization work |
 | `/teaching/{calc-i,diffeq,math300,real-analysis}` | Per-course material pages (PDFs) |
@@ -41,9 +42,9 @@ npx serve out
 All page content lives in `src/data/`, one file per content type, one entry per
 item — edit data there rather than in the page components:
 
-- `src/data/publications.tsx` — papers, grouped by research theme; publication
-  status (accepted / submitted / in preparation) lives on each entry's `venue`
-  line. `recentPublications` is the landing-page subset.
+- `src/data/publications.tsx` — one editorially ordered list of papers;
+  publication status lives on each entry. `recentPublications` is the
+  landing-page subset.
 - `src/data/talks.ts` — one list, newest first. Mathematics does not weight the
   invited/contributed distinction, so the site does not split on it.
 - `src/data/courses.ts` — the teaching page's course groups

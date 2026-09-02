@@ -1,28 +1,36 @@
 import { describe, it, expect } from "vitest";
-import { researchGroups, recentPublications } from "@/data/publications";
+import { researchPublications, recentPublications } from "@/data/publications";
 import { talks } from "@/data/talks";
 
 describe("publications", () => {
-  it("has 9 papers across 3 themes (3/4/2), learning first", () => {
-    expect(researchGroups.map(g => g.entries.length)).toEqual([3, 4, 2]);
-    expect(researchGroups[0].title).toBe("Learned and data-driven dynamics");
+  it("has one list of 9 papers", () => {
+    expect(researchPublications).toHaveLength(9);
   });
   it("lists every paper exactly once", () => {
-    const ids = researchGroups.flatMap(g => g.entries).map(e => e.id);
+    const ids = researchPublications.map(e => e.id);
     expect(new Set(ids).size).toBe(ids.length);
   });
   it("keeps arXiv ids verbatim (including future-dated ones)", () => {
-    const ids = researchGroups.flatMap(g => g.entries).map(e => e.arxivId).filter(Boolean);
-    expect(ids.sort()).toEqual(["2412.11078", "2606.14925", "2606.18501"]);
+    const ids = researchPublications.map(e => e.arxivId).filter(Boolean);
+    expect(ids.sort()).toEqual(["2412.11078", "2606.14925", "2606.18501", "2609.01509"]);
   });
   it("links the published L4DC paper to its PMLR record, not to arXiv", () => {
-    const learned = researchGroups.flatMap(g => g.entries).find(e => e.id === "pub-learned")!;
+    const learned = researchPublications.find(e => e.id === "pub-learned")!;
     expect(learned.url).toBe("https://proceedings.mlr.press/v331/rivas26a.html");
     expect(learned.arxivId).toBeUndefined();
   });
+  it("promotes the completed latent-space paper to an arXiv preprint", () => {
+    const latent = researchPublications.find(e => e.id === "prep-latent")!;
+    expect(latent.title).toBe("Characterizing High-dimensional Dynamics by Combinatorial-Topological Methods on a Latent Space");
+    expect(latent.authors).toBe("P. Bailon, M. Gameiro, B. Gelb, W. Kalies, M. Kramar, K. Mischaikow, B. Rivas, E. Vieira");
+    expect(latent.year).toBe("2026");
+    expect(latent.url).toBe("https://arxiv.org/abs/2609.01509");
+    expect(latent.arxivId).toBe("2609.01509");
+    expect(latent.links).toContainEqual({ label: "code", href: "https://github.com/begelb/latent_dynamics/tree/paper" });
+  });
   it("marks in-preparation entries by venue, with no year and no arXiv id", () => {
-    const prep = researchGroups.flatMap(g => g.entries).filter(e => e.venue === "In preparation.");
-    expect(prep).toHaveLength(5);
+    const prep = researchPublications.filter(e => e.venue === "In preparation.");
+    expect(prep).toHaveLength(4);
     for (const e of prep) {
       expect(e.year).toBeUndefined();
       expect(e.arxivId).toBeUndefined();
@@ -30,7 +38,7 @@ describe("publications", () => {
     }
   });
   it("shows 3 recent papers on the landing page, each linking to the paper", () => {
-    expect(recentPublications).toHaveLength(3);
+    expect(recentPublications.map(e => e.id)).toEqual(["prep-latent", "pub-learned", "pub-hybrid"]);
     for (const e of recentPublications) expect(e.url).toBeTruthy();
   });
 });

@@ -45,8 +45,14 @@ describe("route visibility", () => {
   });
 
   it("keeps public pages listed and indexable", () => {
-    expect(publicNavItems).toContainEqual({ label: "Research", href: "/research" });
+    expect(publicNavItems).toEqual([
+      { label: "Research", href: "/research" },
+      { label: "Teaching", href: "/teaching" },
+      { label: "Software", href: "/software" },
+      { label: "Talks", href: "/talks" },
+    ]);
     expect(publicSitemapPaths).toContain("/research");
+    expect(publicSitemapPaths).toContain("/software");
 
     const metadata = buildMetadata({
       title: "Research — Bernardo Rivas",
@@ -56,5 +62,14 @@ describe("route visibility", () => {
 
     expect(metadata.robots).toBeUndefined();
     expect(metadata.alternates?.canonical).toBe("/research/");
+
+    const softwareMetadata = buildMetadata({
+      title: "Software — Bernardo Rivas",
+      description: "Software by Bernardo Rivas.",
+      path: "/software",
+    });
+
+    expect(softwareMetadata.robots).toBeUndefined();
+    expect(softwareMetadata.alternates?.canonical).toBe("/software/");
   });
 });
