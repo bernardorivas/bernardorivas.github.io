@@ -29,8 +29,16 @@ export default function Home() {
         <section aria-labelledby="recent-title">
           <h2 className="group-head" id="recent-title">{homeCopy.recentHeading}</h2>
           <div className="entries">
-            {recentPublications.map((e) => (
-              <PublicationEntry key={e.id} entry={e} />
+            {recentPublications.map((e, index) => (
+              <PublicationEntry
+                key={e.id}
+                entry={e}
+                railLabel={
+                  index === 0 || e.year !== recentPublications[index - 1]?.year
+                    ? e.year
+                    : null
+                }
+              />
             ))}
           </div>
         </section>
