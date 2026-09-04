@@ -20,6 +20,9 @@
 # production
 /build
 
+# Unvetted teaching material belongs outside this public repository.
+/public/files/teaching/
+
 # misc
 .DS_Store
 *.pem

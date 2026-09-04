@@ -27,6 +27,7 @@ describe("publications", () => {
   });
   it("links the published L4DC paper to its PMLR record, not to arXiv", () => {
     const learned = researchPublications.find(e => e.id === "pub-learned")!;
+    expect(learned.authors).toBe("B. Rivas, W. Kalies, K. Iwasaki, A. Bloch, M. Ghaffari");
     expect(learned.url).toBe("https://proceedings.mlr.press/v331/rivas26a.html");
     expect(learned.arxivId).toBeUndefined();
     expect(learned.links).toContainEqual({
@@ -43,10 +44,11 @@ describe("publications", () => {
     expect(latent.arxivId).toBe("2609.01509");
     expect(latent.links).toContainEqual({ label: "code", href: "https://github.com/begelb/latent_dynamics/tree/paper" });
   });
-  it("marks in-preparation entries by venue, with no year and no arXiv id", () => {
-    const prep = researchPublications.filter(e => e.venue === "In preparation.");
+  it("marks in-preparation entries only through their group heading", () => {
+    const prep = researchPublicationGroups.find(group => group.title === "In preparation")!.publications;
     expect(prep).toHaveLength(4);
     for (const e of prep) {
+      expect(e.venue).toBeUndefined();
       expect(e.year).toBeUndefined();
       expect(e.arxivId).toBeUndefined();
       expect(e.url).toBeUndefined();
@@ -63,6 +65,12 @@ describe("talks", () => {
     expect(talks).toHaveLength(11);
     const years = talks.map(t => Number(t.year));
     expect(years).toEqual([...years].sort((a, b) => b - a));
+    expect(talks.filter(t => t.year === "2025").map(t => t.id)).toEqual([
+      "talk-topology-regulation",
+      "talk-systems-biology",
+      "talk-grn-dynamics",
+      "talk-network-dynamics",
+    ]);
   });
   it("uses the middle-dot separator in venues", () => {
     for (const t of talks) expect(t.venue).toContain("·");

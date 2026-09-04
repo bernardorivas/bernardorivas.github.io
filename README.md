@@ -4,9 +4,10 @@ Bernardo Rivas's academic site, built with Next.js (App Router) and statically
 exported (`output: "export"`) — no server runtime; the result is a plain `out/`
 directory of HTML/CSS/JS deployable to any static host.
 
-The design rule is that every page opens with its content: a short paragraph at
-most, then a list whose entries link straight out to the paper, the PDF, or the
-repository. No stub pages, no landing-page furniture.
+The design rule is that every public page opens with its content: a short
+paragraph at most, then a list whose entries link straight to the paper,
+official course description, or repository. Lean and Hobbies are deliberately
+unlisted drafts that remain available by direct URL.
 
 ## Structure
 
@@ -14,11 +15,10 @@ repository. No stub pages, no landing-page furniture.
 | --- | --- |
 | `/` | Photo, three sentences, email, and the three most recent papers |
 | `/research` | One list of papers, preprints, and work in preparation |
-| `/teaching` | Courses by institution and role, each linking to its materials or its official course page |
+| `/teaching` | Teaching experience by institution and role, with official course-description links where available |
 | `/software` | Topological-dynamics introduction, Lorenz persistence animation, and research software |
 | `/talks` | One reverse-chronological list |
 | `/lean` | Draft/unlisted Lean 4 formalization work |
-| `/teaching/{calc-i,diffeq,math300,real-analysis}` | Per-course material pages (PDFs) |
 
 ## Commands
 
@@ -48,7 +48,6 @@ item — edit data there rather than in the page components:
 - `src/data/talks.ts` — one list, newest first. Mathematics does not weight the
   invited/contributed distinction, so the site does not split on it.
 - `src/data/courses.ts` — the teaching page's course groups
-- `src/data/course-pages.ts` — per-course materials pages (lecture notes, workshops, etc.)
 - `src/data/projects.ts` / `src/data/lean-projects.tsx` — software and Lean projects
 - `src/data/profile.ts` — name, affiliation, and the contact links rendered as
   the icon row under the landing panel. ORCID is intentionally absent from that
@@ -67,14 +66,18 @@ URL but is omitted from both and receives `noindex` metadata. This is an
 unlisted-draft mechanism, not access control. Change a route's status to
 `public` when it is ready to be discoverable.
 
+Unvetted teaching material is private and must remain outside this public
+repository. `/public/files/teaching/` is ignored, the asset checks reject a
+tracked teaching tree, and the export removes that path as defense in depth.
+
 Icons are hand-authored inline SVG in `src/components/icons.tsx`, drawn in
 `currentColor` so they inherit link colour and work in both themes. No icon
 font, no CDN. The theme control sits at the top right of the nav on every page;
 the footer carries only the copyright line.
 
-Static assets (PDFs, images) are under `public/`; `scripts/check-assets.sh`
-pins a few known-fragile ones (exact workshop-PDF counts, intentional gaps in
-the real-analysis series, the `og-lorenz-smooth-2026.jpg` size budget).
+Public assets (the CV, images, and social card) are under `public/`;
+`scripts/check-assets.sh` checks their important invariants and verifies that
+private teaching material has not entered the repository.
 
 `public/files/cv.pdf` is a copy of `../curriculum-vitae/main-research.pdf`, which is
 built from the `.tex` files in that folder and is the canonical academic CV (the
@@ -84,14 +87,8 @@ whenever the CV is rebuilt — it does not update itself, and a stale copy will
 contradict the pages. The other variants (`main-teaching`, `main-europe`, `main`)
 are for other audiences and are not what the site links to.
 
-`public/assets/profile.jpg` is a 440×550 crop of `../profile_pic.jpeg`, made with:
-
-```python
-from PIL import Image
-im = Image.open("../profile_pic.jpeg")
-im.crop((731, 1035, 2922, 3775)).resize((440, 550), Image.LANCZOS) \
-  .save("public/assets/profile.jpg", quality=82, optimize=True, progressive=True)
-```
+`public/assets/profile.jpg` is the current 880×1100 crop of
+`../profile_pic.jpeg`. Preserve its 4:5 aspect ratio when replacing it.
 
 ## Deploy
 
@@ -122,7 +119,7 @@ im.crop((731, 1035, 2922, 3775)).resize((440, 550), Image.LANCZOS) \
    alias is present and points to the intended replacement.
 4. `scripts/linkcheck.py` — every internal href/src in the export resolves to a
    real exported file.
-5. `scripts/check-assets.sh` — pinned asset counts/sizes (see above).
+5. `scripts/check-assets.sh` — public-asset checks and private-material guards.
 
 All five must pass (exit 0) for `npm run verify` to succeed.
 
@@ -139,7 +136,5 @@ drive a browser, so check these by hand in `npx serve out`:
 - **Theme toggle**: flips light/dark, persists across reload with no flash of
   the wrong theme, and overrides system preference in both directions.
 - **Keyboard skip-link**: pressing Tab on page load reveals "Skip to content".
-- **Narrow viewports**: headless Chrome on macOS clamps its window to ~500 CSS
-  px, so widths below that were reasoned about rather than rendered. Check
-  320–430 px in a real browser's device emulation; at ≤430 px the landing
-  photo and text stack.
+- **Narrow viewports**: check 320–430 px in a real browser's device emulation;
+  at ≤430 px the email occupies a full-width row below the portrait block.

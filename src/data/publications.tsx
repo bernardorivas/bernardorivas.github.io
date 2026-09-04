@@ -19,7 +19,7 @@ const pubLearned: Publication = {
   id: "pub-learned",
   title: "Topological Dynamics via Learned Hybrid Systems",
   url: "https://proceedings.mlr.press/v331/rivas26a.html",
-  authors: "B. Rivas, K. Iwasaki, W. Kalies, A. Bloch, M. Ghaffari",
+  authors: "B. Rivas, W. Kalies, K. Iwasaki, A. Bloch, M. Ghaffari",
   venue: <>Proceedings of the 8th Annual Learning for Dynamics and Control Conference (L4DC). PMLR 331:1663–1674.</>,
   year: "2026",
   links: [
@@ -32,7 +32,6 @@ const prepCycling: Publication = {
   id: "prep-cycling",
   title: "Learning Cycling Signatures of Hybrid Systems",
   authors: "D. Hien, K. Iwasaki, B. Rivas",
-  venue: "In preparation.",
 };
 
 const pubLatent: Publication = {
@@ -73,7 +72,6 @@ const prepInference: Publication = {
   id: "prep-inference",
   title: "Topological Validation of Parameter Inference in Gene Regulatory Networks",
   authors: "W. El Khateeb, B. Rivas, W. Kalies",
-  venue: "In preparation.",
 };
 
 // Title from Projects/control-in-dsgrn/old_paper/main.tex:33, which he
@@ -84,7 +82,6 @@ const prepControl: Publication = {
   id: "prep-control",
   title: "Towards an Algorithmic Approach to Control of Dynamic Phenotypes",
   authors: "M. Gameiro, W. Kalies, K. Mischaikow, B. Rivas",
-  venue: "In preparation.",
 };
 
 // ---------------------------------------------------------------------------
@@ -105,7 +102,6 @@ const prepAttractor: Publication = {
   id: "prep-attractor",
   title: "Hybrid Attractor Lattices",
   authors: "W. Kalies, B. Rivas, T. Wehbe",
-  venue: "In preparation.",
 };
 
 export const researchPublicationGroups: { id: string; title: string; publications: Publication[] }[] = [

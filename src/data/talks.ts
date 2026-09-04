@@ -23,18 +23,6 @@ export const talks: Talk[] = [
     venue: "Universidade Federal do Espírito Santo · Vitória, Brazil",
   },
   {
-    id: "talk-grn-dynamics",
-    year: "2025",
-    title: "Computational dynamics of gene regulatory networks",
-    venue: "Dynamics Seminar · Athens, Ohio",
-  },
-  {
-    id: "talk-network-dynamics",
-    year: "2025",
-    title: "Network dynamics via combinatorics, topology and homology",
-    venue: "AMS Seminar · Toledo, Ohio",
-  },
-  {
     id: "talk-topology-regulation",
     year: "2025",
     title: "A computational topology approach to gene regulation",
@@ -45,6 +33,18 @@ export const talks: Talk[] = [
     year: "2025",
     title: "Global dynamics in systems biology",
     venue: "SIAM Conference on Applications of Dynamical Systems · Denver, Colorado",
+  },
+  {
+    id: "talk-grn-dynamics",
+    year: "2025",
+    title: "Computational dynamics of gene regulatory networks",
+    venue: "Dynamics Seminar · Athens, Ohio",
+  },
+  {
+    id: "talk-network-dynamics",
+    year: "2025",
+    title: "Network dynamics via combinatorics, topology and homology",
+    venue: "AMS Seminar · Toledo, Ohio",
   },
   {
     id: "talk-analytical-bounds",

@@ -12,15 +12,10 @@ const OUTPUT = "out";
 const SITE_ORIGIN = "https://bernardorivas.github.io";
 const CHECK_ONLY = process.argv.includes("--check");
 
-// Keep unvetted teaching material in the source checkout without including it
-// in the public GitHub Pages artifact. Removing an item from this list restores
-// it on the next build.
+// Defense in depth: unvetted teaching material belongs outside this repository,
+// and must never enter the public GitHub Pages artifact if it is added locally.
 const UNPUBLISHED_OUTPUTS = [
   "files/teaching",
-  "teaching/calc-i",
-  "teaching/diffeq",
-  "teaching/math300",
-  "teaching/real-analysis",
 ];
 
 // GitHub Pages has no server-side redirects. These small static documents keep
@@ -36,6 +31,10 @@ const REDIRECTS = [
   ["/talks.html", "/talks/"],
   ["/teaching.html", "/teaching/"],
   ["/lean.html", "/lean/"],
+  ["/teaching/calc-i/", "/teaching/#course-calc-2021"],
+  ["/teaching/diffeq/", "/teaching/#course-ode-2022"],
+  ["/teaching/math300/", "/teaching/#course-reasoning-2023"],
+  ["/teaching/real-analysis/", "/teaching/#course-real-summer-2024"],
   ["/teaching-calc-i.html", "/teaching/#course-calc-2021"],
   ["/teaching-diffeq.html", "/teaching/#course-ode-2022"],
   ["/teaching-math300.html", "/teaching/#course-reasoning-2023"],
