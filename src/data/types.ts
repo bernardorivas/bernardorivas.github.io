@@ -12,4 +12,4 @@ export interface Talk { id: string; year: string; title: string; venue: string; 
 export interface CourseLink { label: string; href: string; external?: boolean; } // external renders "↗", internal "→"
 export interface Course { id: string; term: string; title: string; meta?: string; links?: CourseLink[]; }
 export interface CourseGroup { title: string; courses: Course[]; }
-export interface Project { id: string; name: string; role: "Author" | "Contributor"; description: string; link: { label: string; href: string }; }
+export interface Project { id: string; name: string; description: string; link: { label: string; href: string }; }

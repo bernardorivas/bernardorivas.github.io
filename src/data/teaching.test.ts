@@ -14,6 +14,9 @@ describe("teaching landing", () => {
 describe("projects", () => {
   it("has 4, each linking straight out", () => {
     expect(projects).toHaveLength(4);
-    for (const p of projects) expect(p.link.href).toMatch(/^https:\/\//);
+    for (const p of projects) {
+      expect(p).not.toHaveProperty("role");
+      expect(p.link.href).toMatch(/^https:\/\//);
+    }
   });
 });
