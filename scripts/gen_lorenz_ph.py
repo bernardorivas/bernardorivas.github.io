@@ -2,9 +2,9 @@
 
 Requires numpy and ripser (pip install numpy ripser); run from the repo root.
 
-Mirrors the retired src/lib/lorenz.ts exactly: sigma=10, rho=28, beta=8/3, RK4 with
-dt=0.005 from [0.1, 0, 0], transient of 1800 steps discarded, every 2nd
-sample kept (sample spacing 0.01 time units).
+Uses sigma=10, rho=28, beta=8/3, and RK4 with dt=0.005 from [0.1, 0, 0].
+The transient of 1800 steps is discarded, then every second sample is kept
+(sample spacing 0.01 time units).
 
 For each animation frame, a window of W samples is subsampled and fed to
 ripser (Vietoris-Rips, maxdim=1) on the full 3D points; the H1 pairs are the

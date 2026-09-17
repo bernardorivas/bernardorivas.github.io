@@ -13,12 +13,6 @@ describe("route visibility", () => {
     expect(publicSitemapPaths).not.toContain("/lean");
   });
 
-  it("keeps Hobbies available as an unlisted draft", () => {
-    expect(isDraftRoute("/hobbies")).toBe(true);
-    expect(publicNavItems).not.toContainEqual({ label: "Hobbies", href: "/hobbies" });
-    expect(publicSitemapPaths).not.toContain("/hobbies");
-  });
-
   it("prevents search engines from indexing drafts", () => {
     const metadata = buildMetadata({
       title: "Lean — Bernardo Rivas",
