@@ -1,0 +1,27 @@
+{
+  "name": "bernardo-rivas-site",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "lint": "eslint",
+    "test": "vitest run",
+    "verify": "npm run build && npm test && python3 scripts/linkcheck.py && bash scripts/check-assets.sh"
+  },
+  "dependencies": {
+    "next": "16.3.3",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "esbuild": "^0.28.1",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.3",
+    "typescript": "^5",
+    "vitest": "^4.1.10"
+  }
+}

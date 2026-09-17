@@ -1,0 +1,10 @@
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.DS_Store
+.env*
+
+# Unvetted teaching material belongs outside this public repository.
+public/files/teaching/

@@ -1,0 +1,10 @@
+// Highlights the current author in publication lists.
+export function highlightSelf(authors: string): React.ReactNode {
+  const parts = authors.split("B. Rivas");
+  const out: React.ReactNode[] = [];
+  parts.forEach((p, i) => {
+    if (p) out.push(p);
+    if (i < parts.length - 1) out.push(<span key={i} className="author-self">B. Rivas</span>);
+  });
+  return out;
+}
