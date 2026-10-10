@@ -37,6 +37,7 @@ const pubLatent: Publication = {
   title: "Characterizing High-dimensional Dynamics by Combinatorial-Topological Methods on a Latent Space",
   url: "https://arxiv.org/abs/2609.01509",
   authors: "P. Bailon, M. Gameiro, B. Gelb, W. Kalies, M. Kramar, K. Mischaikow, B. Rivas, E. Vieira",
+  venue: <>Submitted to <em>SIAM Journal on Applied Dynamical Systems</em>.</>,
   year: "2026",
   arxivId: "2609.01509",
   links: [{ label: "code", href: "https://github.com/begelb/latent_dynamics/tree/paper" }],
@@ -51,6 +52,7 @@ const pubBoolean: Publication = {
   title: "Boolean Models Coarsely Sample Continuous Dynamics of Regulatory Networks",
   url: "https://arxiv.org/abs/2606.14925",
   authors: "B. Cummins, M. Gameiro, T. Gedeon, K. Mischaikow, B. Rivas",
+  venue: <>In revision, <em>PLOS Computational Biology</em>.</>,
   year: "2026",
   arxivId: "2606.14925",
 };
@@ -85,21 +87,26 @@ const pubHybrid: Publication = {
   title: "Conley Index Theory for Hybrid Systems",
   url: "https://arxiv.org/abs/2606.18501",
   authors: "B. Rivas, W. Kalies",
+  venue: <>In revision, <em>Nonlinear Analysis: Hybrid Systems</em>.</>,
   year: "2026",
   arxivId: "2606.18501",
 };
 
-const prepAttractor: Publication = {
+// TODO: replace the placeholder arXiv id (url and arxivId) before pushing.
+const pubAttractor: Publication = {
   id: "prep-attractor",
-  title: "Hybrid Attractor Lattices",
+  title: "Computation of Attractor Lattices for a Class of Hybrid Systems",
+  url: "https://arxiv.org/abs/XXXX.XXXXX",
   authors: "W. Kalies, B. Rivas, T. Wehbe",
+  year: "2026",
+  arxivId: "XXXX.XXXXX",
 };
 
 export const researchPublicationGroups: { id: string; title: string; publications: Publication[] }[] = [
   {
     id: "research-2026",
     title: "2026",
-    publications: [pubLatent, pubLearned, pubHybrid, pubBoolean],
+    publications: [pubAttractor, pubLatent, pubLearned, pubHybrid, pubBoolean],
   },
   {
     id: "research-2024",
@@ -109,7 +116,7 @@ export const researchPublicationGroups: { id: string; title: string; publication
   {
     id: "research-in-preparation",
     title: "In preparation",
-    publications: [prepCycling, prepAttractor, prepInference, prepControl],
+    publications: [prepCycling, prepInference, prepControl],
   },
 ];
 

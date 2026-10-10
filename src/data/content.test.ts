@@ -13,6 +13,7 @@ describe("publications", () => {
   it("groups public papers by year and leaves unfinished work undated", () => {
     expect(researchPublicationGroups.map(group => group.title)).toEqual(["2026", "2024", "In preparation"]);
     expect(researchPublicationGroups[0].publications.map(entry => entry.id)).toEqual([
+      "prep-attractor",
       "prep-latent",
       "pub-learned",
       "pub-hybrid",
@@ -23,7 +24,7 @@ describe("publications", () => {
   });
   it("keeps arXiv ids verbatim (including future-dated ones)", () => {
     const ids = researchPublications.map(e => e.arxivId).filter(Boolean);
-    expect(ids.sort()).toEqual(["2412.11078", "2606.14925", "2606.18501", "2609.01509"]);
+    expect(ids.sort()).toEqual(["2412.11078", "2606.14925", "2606.18501", "2609.01509", "XXXX.XXXXX"]);
   });
   it("links the published L4DC paper to its PMLR record, not to arXiv", () => {
     const learned = researchPublications.find(e => e.id === "pub-learned")!;
@@ -46,7 +47,7 @@ describe("publications", () => {
   });
   it("marks in-preparation entries only through their group heading", () => {
     const prep = researchPublicationGroups.find(group => group.title === "In preparation")!.publications;
-    expect(prep).toHaveLength(4);
+    expect(prep).toHaveLength(3);
     for (const e of prep) {
       expect(e.venue).toBeUndefined();
       expect(e.year).toBeUndefined();
