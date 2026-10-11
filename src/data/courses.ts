@@ -13,6 +13,17 @@ const rutgersOdeEngDescription =
 
 export const courseGroups: CourseGroup[] = [
   {
+    title: "University of Toledo · Course development",
+    courses: [
+      {
+        id: "course-data-5330",
+        term: "2026–2027",
+        title: "Data Analytics and Visualization",
+        meta: "DATA 5330 · Online M.S. in Data Science and AI",
+      },
+    ],
+  },
+  {
     title: "University of Toledo · Instructor of record",
     courses: [
       {

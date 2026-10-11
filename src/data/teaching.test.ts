@@ -3,11 +3,11 @@ import { courseGroups } from "@/data/courses";
 import { projects } from "@/data/projects";
 
 describe("teaching landing", () => {
-  it("has 4 groups with 1/3/7/1 courses", () => {
-    expect(courseGroups.map(g => g.courses.length)).toEqual([1, 3, 7, 1]);
+  it("has 5 groups with 1/1/3/7/1 courses", () => {
+    expect(courseGroups.map(g => g.courses.length)).toEqual([1, 1, 3, 7, 1]);
   });
   it("uses en dash in ICMC–USP group title", () => {
-    expect(courseGroups[3].title).toContain("ICMC–USP");
+    expect(courseGroups[4].title).toContain("ICMC–USP");
   });
 });
 

@@ -11,6 +11,7 @@ export const metadata = buildMetadata({
 });
 
 const groupIds = [
+  "utoledo-development-title",
   "utoledo-instructor-title",
   "rutgers-instructor-title",
   "rutgers-ta-title",
