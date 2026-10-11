@@ -69,7 +69,7 @@ const pubGlobal: Publication = {
 const prepInference: Publication = {
   id: "prep-inference",
   title: "Topological Validation of Parameter Inference in Gene Regulatory Networks",
-  authors: "W. El-Khateeb, B. Rivas, W. Kalies",
+  authors: "W. El-Khateeb, W. Kalies, B. Rivas",
 };
 
 const prepControl: Publication = {
