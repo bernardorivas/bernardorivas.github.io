@@ -56,7 +56,7 @@ describe("publications", () => {
     }
   });
   it("shows 3 recent papers on the landing page, each linking to the paper", () => {
-    expect(recentPublications.map(e => e.id)).toEqual(["prep-latent", "pub-learned", "pub-hybrid"]);
+    expect(recentPublications.map(e => e.id)).toEqual(["prep-attractor", "prep-latent", "pub-learned"]);
     for (const e of recentPublications) expect(e.url).toBeTruthy();
   });
 });

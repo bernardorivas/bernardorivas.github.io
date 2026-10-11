@@ -69,7 +69,7 @@ const pubGlobal: Publication = {
 const prepInference: Publication = {
   id: "prep-inference",
   title: "Topological Validation of Parameter Inference in Gene Regulatory Networks",
-  authors: "W. El Khateeb, B. Rivas, W. Kalies",
+  authors: "W. El-Khateeb, B. Rivas, W. Kalies",
 };
 
 const prepControl: Publication = {
@@ -125,4 +125,4 @@ export const researchPublications: Publication[] = researchPublicationGroups.fla
 );
 
 // The three most recent papers, shown on the landing page.
-export const recentPublications: Publication[] = [pubLatent, pubLearned, pubHybrid];
+export const recentPublications: Publication[] = [pubAttractor, pubLatent, pubLearned];
