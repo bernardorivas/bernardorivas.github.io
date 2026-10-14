@@ -4,7 +4,7 @@ import { projects } from "@/data/projects";
 
 describe("teaching landing", () => {
   it("has 5 groups with 1/1/3/7/1 courses", () => {
-    expect(courseGroups.map(g => g.courses.length)).toEqual([1, 1, 3, 7, 1]);
+    expect(courseGroups.map(g => g.courses.length)).toEqual([1, 1, 3, 8, 1]);
   });
   it("uses en dash in ICMC–USP group title", () => {
     expect(courseGroups[4].title).toContain("ICMC–USP");

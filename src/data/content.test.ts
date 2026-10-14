@@ -62,8 +62,8 @@ describe("publications", () => {
 });
 
 describe("talks", () => {
-  it("is a single list of 12, newest first", () => {
-    expect(talks).toHaveLength(12);
+  it("is a single list of 14, newest first", () => {
+    expect(talks).toHaveLength(14);
     const years = talks.map(t => Number(t.year));
     expect(years).toEqual([...years].sort((a, b) => b - a));
     expect(talks.filter(t => t.year === "2025").map(t => t.id)).toEqual([

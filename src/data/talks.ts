@@ -76,4 +76,16 @@ export const talks: Talk[] = [
     title: "Rigorous numerics of invariant manifolds",
     venue: "Summer Meeting in Differential Equations · São Carlos, Brazil",
   },
+  {
+    id: "talk-game-of-life-sim",
+    year: "2018",
+    title: "O Jogo da Vida (The Game of Life)",
+    venue: "Simpósio de Matemática para a Graduação (SiM), ICMC-USP · São Carlos, Brazil",
+  },
+  {
+    id: "talk-game-of-life-scl",
+    year: "2017",
+    title: "O Jogo da Vida (The Game of Life)",
+    venue: "Seminário de Coisas Legais, ICMC-USP · São Carlos, Brazil",
+  },
 ];

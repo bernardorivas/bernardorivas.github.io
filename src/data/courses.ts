@@ -120,6 +120,19 @@ export const courseGroups: CourseGroup[] = [
       {
         id: "course-calc-2021",
         term: "Fall 2021",
+        title: "Calculus I for the Mathematical and Physical Sciences",
+        meta: "640:151",
+        links: [
+          {
+            label: "Course description",
+            href: "https://math.rutgers.edu/academics/undergraduate/course-descriptions/941-01-640-151-calculus-i-for-the-mathematical-and-physical-sciences",
+            external: true,
+          },
+        ],
+      },
+      {
+        id: "course-calc-2020",
+        term: "Summer 2020",
         title: "Calculus I for the Life and Social Sciences",
         meta: "640:135",
         links: [
