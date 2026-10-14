@@ -44,13 +44,13 @@ export const talks: Talk[] = [
     id: "talk-grn-dynamics",
     year: "2025",
     title: "Computational dynamics of gene regulatory networks",
-    venue: "Dynamics Seminar · Athens, Ohio",
+    venue: "Dynamics Seminar, Ohio University · Athens, Ohio",
   },
   {
     id: "talk-network-dynamics",
     year: "2025",
     title: "Network dynamics via combinatorics, topology and homology",
-    venue: "AMS Seminar · Toledo, Ohio",
+    venue: "AMS Seminar, University of Toledo · Toledo, Ohio",
   },
   {
     id: "talk-analytical-bounds",
