@@ -99,6 +99,7 @@ const pubAttractor: Publication = {
   authors: "W. Kalies, B. Rivas, T. Wehbe",
   year: "2026",
   arxivId: "2610.15123",
+  links: [{ label: "code", href: "https://github.com/bernardorivas/hybrid_boxmap" }],
 };
 
 export const researchPublicationGroups: { id: string; title: string; publications: Publication[] }[] = [
