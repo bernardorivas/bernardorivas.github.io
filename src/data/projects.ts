@@ -6,9 +6,8 @@ import type { Project } from "@/data/types";
 export const projects: Project[] = [
   {
     id: "project-hybrid-boxmap",
-    name: "hybrid_boxmap",
-    description:
-      "Extends CMGDB to a class of hybrid systems through their suspension semiflow, computing Morse graphs, Conley indices and lattices of attractors from sampled trajectories.",
+    name: "Hybrid BoxMap",
+    description: "Conley-Morse graphs for hybrid systems.",
     link: { label: "GitHub", href: "https://github.com/bernardorivas/hybrid_boxmap" },
   },
   {
