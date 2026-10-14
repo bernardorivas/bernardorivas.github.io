@@ -17,7 +17,7 @@ const pubLearned: Publication = {
   id: "pub-learned",
   title: "Topological Dynamics via Learned Hybrid Systems",
   url: "https://proceedings.mlr.press/v331/rivas26a.html",
-  authors: "B. Rivas, W. Kalies, K. Iwasaki, A. Bloch, M. Ghaffari",
+  authors: "B. Rivas, K. Iwasaki, W. Kalies, A. Bloch, M. Ghaffari",
   venue: <>Proceedings of the 8th Annual Learning for Dynamics and Control Conference (L4DC). PMLR 331:1663–1674.</>,
   year: "2026",
   links: [

@@ -28,7 +28,7 @@ describe("publications", () => {
   });
   it("links the published L4DC paper to its PMLR record, not to arXiv", () => {
     const learned = researchPublications.find(e => e.id === "pub-learned")!;
-    expect(learned.authors).toBe("B. Rivas, W. Kalies, K. Iwasaki, A. Bloch, M. Ghaffari");
+    expect(learned.authors).toBe("B. Rivas, K. Iwasaki, W. Kalies, A. Bloch, M. Ghaffari");
     expect(learned.url).toBe("https://proceedings.mlr.press/v331/rivas26a.html");
     expect(learned.arxivId).toBeUndefined();
     expect(learned.links).toContainEqual({
