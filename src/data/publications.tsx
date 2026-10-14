@@ -37,7 +37,6 @@ const pubLatent: Publication = {
   title: "Characterizing High-dimensional Dynamics by Combinatorial-Topological Methods on a Latent Space",
   url: "https://arxiv.org/abs/2609.01509",
   authors: "P. Bailon, M. Gameiro, B. Gelb, W. Kalies, M. Kramar, K. Mischaikow, B. Rivas, E. Vieira",
-  venue: <>Submitted to <em>SIAM Journal on Applied Dynamical Systems</em>.</>,
   year: "2026",
   arxivId: "2609.01509",
   links: [{ label: "code", href: "https://github.com/begelb/latent_dynamics/tree/paper" }],
@@ -52,7 +51,6 @@ const pubBoolean: Publication = {
   title: "Boolean Models Coarsely Sample Continuous Dynamics of Regulatory Networks",
   url: "https://arxiv.org/abs/2606.14925",
   authors: "B. Cummins, M. Gameiro, T. Gedeon, K. Mischaikow, B. Rivas",
-  venue: <>In revision, <em>PLOS Computational Biology</em>.</>,
   year: "2026",
   arxivId: "2606.14925",
 };
@@ -87,7 +85,6 @@ const pubHybrid: Publication = {
   title: "Conley Index Theory for Hybrid Systems",
   url: "https://arxiv.org/abs/2606.18501",
   authors: "B. Rivas, W. Kalies",
-  venue: <>In revision, <em>Nonlinear Analysis: Hybrid Systems</em>.</>,
   year: "2026",
   arxivId: "2606.18501",
 };
