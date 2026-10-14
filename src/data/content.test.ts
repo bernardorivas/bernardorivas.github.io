@@ -24,7 +24,7 @@ describe("publications", () => {
   });
   it("keeps arXiv ids verbatim (including future-dated ones)", () => {
     const ids = researchPublications.map(e => e.arxivId).filter(Boolean);
-    expect(ids.sort()).toEqual(["2412.11078", "2606.14925", "2606.18501", "2609.01509", "XXXX.XXXXX"]);
+    expect(ids.sort()).toEqual(["2412.11078", "2606.14925", "2606.18501", "2609.01509", "2610.15123"]);
   });
   it("links the published L4DC paper to its PMLR record, not to arXiv", () => {
     const learned = researchPublications.find(e => e.id === "pub-learned")!;

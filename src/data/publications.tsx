@@ -92,14 +92,13 @@ const pubHybrid: Publication = {
   arxivId: "2606.18501",
 };
 
-// TODO: replace the placeholder arXiv id (url and arxivId) before pushing.
 const pubAttractor: Publication = {
   id: "prep-attractor",
   title: "Computation of Attractor Lattices for a Class of Hybrid Systems",
-  url: "https://arxiv.org/abs/XXXX.XXXXX",
+  url: "https://arxiv.org/abs/2610.15123",
   authors: "W. Kalies, B. Rivas, T. Wehbe",
   year: "2026",
-  arxivId: "XXXX.XXXXX",
+  arxivId: "2610.15123",
 };
 
 export const researchPublicationGroups: { id: string; title: string; publications: Publication[] }[] = [
