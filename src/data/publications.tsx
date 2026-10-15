@@ -29,7 +29,7 @@ const pubLearned: Publication = {
 const prepCycling: Publication = {
   id: "prep-cycling",
   title: "Learning Cycling Signatures of Hybrid Systems",
-  authors: "D. Hien, K. Iwasaki, B. Rivas",
+  authors: "D. Hien, K. Iwasaki, B. Rivas, R. Vasudevan",
 };
 
 const pubLatent: Publication = {
