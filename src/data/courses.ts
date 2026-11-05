@@ -78,6 +78,12 @@ export const courseGroups: CourseGroup[] = [
         links: [{ label: "Course description", href: rutgersRealAnalysisDescription, external: true }],
       },
       {
+        id: "head-ta-summer-2023",
+        term: "Summer 2023",
+        title: "Head Teaching Assistant",
+        meta: "Summer session",
+      },
+      {
         id: "course-ode-244-2023",
         term: "Spring 2023",
         title: "Differential Equations for Engineering and Physics",
