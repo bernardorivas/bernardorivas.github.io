@@ -1,40 +1,19 @@
 "use client";
 
-// Animation for the Software page: one grid cell at a time is carried by the
-// time-tau map of the Van der Pol flow, and the cells its image hits are
-// shaded. The geometry lives in src/lib/outer-approximation.ts; this file only
-// draws it. Every frame is a function of the clock, which runs only while the
-// figure is on screen and playing.
+// Animation for the Software page: a few grid cells are carried by the time-tau
+// map of the Van der Pol flow and the cells covering their images are shaded;
+// then the outer approximation from padded samples is drawn as a graph on every
+// cell, its Morse sets are singled out, and they move into the Morse graph with
+// their Conley indices.
+// The page computes the graph and the indices at build time (src/lib/morse-figure.ts);
+// this file only runs the clock, and src/lib/morse-figure-scene.ts draws each frame.
 
 import { useEffect, useRef } from "react";
 import { softwareCopy } from "@/data/copy";
-import {
-  CELL,
-  CELLS,
-  STEPS,
-  along,
-  cellImage,
-  limitCycle,
-  type CellImage,
-  type Point,
-} from "@/lib/outer-approximation";
+import type { FigureData } from "@/lib/morse-figure";
+import { CYCLE_S, STILL, drawFrame, makeScene, staticPart, type Palette } from "@/lib/morse-figure-scene";
 
-// seconds spent on each cell, and on the whole loop
-const STEP_S = 4.5;
-const CYCLE_S = STEP_S * CELLS.length;
-// visible half-height of the phase plane
-const Y_HALF = 3.25;
-// frame shown when motion is reduced: the second cell with its hit cells shaded
-const STILL = STEP_S + 3.4;
-
-const clamp01 = (s: number) => Math.min(1, Math.max(0, s));
-const ease = (s: number) => {
-  const u = clamp01(s);
-  return u * u * (3 - 2 * u);
-};
-const phase = (t: number, a: number, b: number) => ease((t - a) / (b - a));
-
-export default function OuterApproximation() {
+export default function OuterApproximation({ data }: { data: FigureData }) {
   const figureRef = useRef<HTMLElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const toggleRef = useRef<HTMLButtonElement | null>(null);
@@ -49,8 +28,7 @@ export default function OuterApproximation() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const images: CellImage[] = CELLS.map(cellImage);
-    const cycle = limitCycle();
+    const scene = makeScene(data);
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let paused = reducedMotion.matches;
     let visible = false;
@@ -58,7 +36,9 @@ export default function OuterApproximation() {
     let last: number | null = null;
     let raf = 0;
     let scrubbing = false;
-    let palette = { paper: "", ink: "", inkSoft: "", line: "", graph: "", blue: "", gold: "" };
+    // the static stretch of the loop shown by the last drawn frame, or -1
+    let drawnPart = -1;
+    let palette: Palette = { paper: "", ink: "", inkSoft: "", line: "", graph: "", blue: "", gold: "", serif: "serif" };
 
     function readPalette() {
       const styles = getComputedStyle(document.documentElement);
@@ -71,6 +51,7 @@ export default function OuterApproximation() {
         graph: v("--graph"),
         blue: v("--blue"),
         gold: v("--gold"),
+        serif: v("--font-serif") || "serif",
       };
     }
 
@@ -84,122 +65,15 @@ export default function OuterApproximation() {
         canvas!.height = height;
       }
       ctx!.setTransform(ratio, 0, 0, ratio, 0, 0);
-      return { width: box.width, height: box.height };
+      return { width: box.width, height: box.height, ratio };
     }
 
     function draw() {
-      const { width: W, height: H } = sizeCanvas();
-      const c = ctx!;
-      const s = H / (2 * Y_HALF);
-      const X = (x: number) => W / 2 + x * s;
-      const Y = (y: number) => H / 2 - y * s;
-      const P = (p: Point): Point => [X(p[0]), Y(p[1])];
-      const side = CELL * s;
-      const cellRect = ([i, j]: Point) => [X(i * CELL), Y((j + 1) * CELL), side, side] as const;
-      const path = (pts: Point[], close = false) => {
-        c.beginPath();
-        pts.forEach((p, k) => (k ? c.lineTo(p[0], p[1]) : c.moveTo(p[0], p[1])));
-        if (close) c.closePath();
-      };
-
-      c.clearRect(0, 0, W, H);
-
-      // the whole cells that fit in the canvas, centered on the origin
-      c.globalAlpha = 1;
-      c.strokeStyle = palette.line;
-      c.lineWidth = 1;
-      c.beginPath();
-      const nx = Math.floor(W / 2 / side);
-      const ny = Math.floor(H / 2 / side);
-      for (let i = -nx; i <= nx; i++) {
-        c.moveTo(X(i * CELL), Y(ny * CELL));
-        c.lineTo(X(i * CELL), Y(-ny * CELL));
-      }
-      for (let j = -ny; j <= ny; j++) {
-        c.moveTo(X(-nx * CELL), Y(j * CELL));
-        c.lineTo(X(nx * CELL), Y(j * CELL));
-      }
-      c.stroke();
-
-      c.setLineDash([3, 4]);
-      c.strokeStyle = palette.graph;
-      path(cycle.map(P), true);
-      c.stroke();
-      c.setLineDash([]);
-
+      const { width, height, ratio } = sizeCanvas();
       const t = clock % CYCLE_S;
       range!.value = String(t);
-      const image = images[Math.floor(t / STEP_S)];
-      const u = t % STEP_S;
-      const env = 1 - phase(u, STEP_S - 0.5, STEP_S);
-      const k = phase(u, 0.7, 2.4) * STEPS;
-
-      // cells hit by the image
-      const cover = phase(u, 2.5, 3.1) * env;
-      if (cover > 0) {
-        c.fillStyle = palette.blue;
-        c.strokeStyle = palette.blue;
-        for (const cell of image.hit) {
-          const [x, y, w, h] = cellRect(cell);
-          c.globalAlpha = cover * 0.22;
-          c.fillRect(x, y, w, h);
-          c.globalAlpha = cover;
-          c.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1);
-        }
-      }
-
-      // the cell
-      const shown = phase(u, 0, 0.5) * env;
-      const [x, y, w, h] = cellRect(image.cell);
-      c.globalAlpha = shown * 0.3;
-      c.fillStyle = palette.gold;
-      c.fillRect(x, y, w, h);
-      c.globalAlpha = shown;
-      c.strokeStyle = palette.gold;
-      c.lineWidth = 1.8;
-      c.strokeRect(x, y, w, h);
-
-      // orbits of the corners, the moving image, and sample points inside it
-      const moving = phase(u, 0.6, 0.8) * env;
-      if (moving > 0) {
-        c.globalAlpha = moving * 0.7;
-        c.strokeStyle = palette.graph;
-        c.lineWidth = 1;
-        for (const orbit of image.corners) {
-          const pts = orbit.slice(0, Math.floor(k) + 1).map(P);
-          pts.push(P(along(orbit, k)));
-          path(pts);
-          c.stroke();
-        }
-        const outline = image.boundary.map((orbit) => P(along(orbit, k)));
-        c.globalAlpha = moving * 0.14;
-        c.fillStyle = palette.blue;
-        path(outline, true);
-        c.fill();
-        c.globalAlpha = moving;
-        c.strokeStyle = palette.blue;
-        c.lineWidth = 1.8;
-        path(outline, true);
-        c.stroke();
-        c.globalAlpha = moving * 0.85;
-        c.fillStyle = palette.ink;
-        for (const orbit of image.dots) {
-          const [px, py] = P(along(orbit, k));
-          c.beginPath();
-          c.arc(px, py, 1.5, 0, Math.PI * 2);
-          c.fill();
-        }
-      }
-
-      // the equilibrium
-      c.globalAlpha = 1;
-      c.lineWidth = 1.4;
-      c.beginPath();
-      c.arc(X(0), Y(0), 3, 0, Math.PI * 2);
-      c.fillStyle = palette.paper;
-      c.fill();
-      c.strokeStyle = palette.ink;
-      c.stroke();
+      drawFrame(ctx!, width, height, t, palette, scene, ratio);
+      drawnPart = staticPart(t);
     }
 
     function frame(now: number) {
@@ -211,7 +85,12 @@ export default function OuterApproximation() {
       // schedule the next frame first, so a failed draw cannot end the loop
       if (!paused && visible) raf = window.requestAnimationFrame(frame);
       else last = null;
-      draw();
+      // within a stretch where the picture does not change, only the time bar moves;
+      // resizing, a theme change or the time bar redraw through draw() directly
+      const t = clock % CYCLE_S;
+      const part = staticPart(t);
+      if (part >= 0 && part === drawnPart) range!.value = String(t);
+      else draw();
     }
 
     function play() {
@@ -304,7 +183,7 @@ export default function OuterApproximation() {
       resizeObserver?.disconnect();
       window.removeEventListener("resize", draw);
     };
-  }, []);
+  }, [data]);
 
   const copy = softwareCopy.oaFigure;
   return (

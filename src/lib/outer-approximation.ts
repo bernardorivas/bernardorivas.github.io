@@ -1,6 +1,7 @@
 // Van der Pol flow x' = y, y' = (1 - x^2) y - x, its time-TAU map, and the
 // grid cells hit by the images of sample points of a cell. Cell (i, j) is the
-// square [i h, (i + 1) h] x [j h, (j + 1) h] with h = CELL.
+// square [i h, (i + 1) h] x [j h, (j + 1) h] with h = CELL, and the grid is the
+// 2 HALF x 2 HALF cells of [-3, 3]^2, those with -HALF <= i, j < HALF.
 //
 // hitCells approximates the smallest outer approximation, the closed cells
 // that meet f(|xi|), so that f(|xi|) lies in the interior of their union. It
@@ -8,18 +9,20 @@
 
 export type Point = [number, number];
 
-export const CELL = 0.5;
-export const TAU = 0.6;
+export const CELL = 0.375;
+export const HALF = 8;
+export const TAU = 1.3;
 // RK4 steps over [0, TAU]
-export const STEPS = 24;
+export const STEPS = 52;
 // a cell is sampled at (x0 + k h / SAMPLES, y0 + l h / SAMPLES), 0 <= k, l <= SAMPLES
 export const SAMPLES = 50;
-// the cells the figure animates, in order
+// the cells the figure carries along the flow one at a time, in order
 export const CELLS: Point[] = [
-  [-5, 5],
-  [-3, 2],
+  [-7, 5],
+  [-4, 3],
   [-1, -1],
-  [0, -3],
+  [2, -4],
+  [6, -5],
 ];
 
 function field(x: number, y: number): Point {
@@ -44,6 +47,12 @@ export function flowSteps(p: Point): Point[] {
   return out;
 }
 
+// the image of p under the time-TAU map, the last point of flowSteps(p)
+export function timeMap(p: Point): Point {
+  for (let k = 0; k < STEPS; k++) p = rk4(p, TAU / STEPS);
+  return p;
+}
+
 // one period of the limit cycle, between two downward crossings of the positive x-axis
 export function limitCycle(dt = 0.01): Point[] {
   let p: Point = [2, 0];
@@ -62,13 +71,14 @@ export function limitCycle(dt = 0.01): Point[] {
 // Indices of the closed cells meeting the image of cell (i, j), sorted. Each
 // sampled image point q stands for the box q + [-d, d]^2, where d is the largest
 // sup-norm distance between the images of adjacent sample points; to first order
-// every point of the image lies within d of a sampled one.
+// every point of the image lies within d of a sampled one. Cells outside the
+// grid are included.
 export function hitCells([i, j]: Point): Point[] {
   const n = SAMPLES;
   const img: Point[][] = [];
   for (let k = 0; k <= n; k++) {
     const row: Point[] = [];
-    for (let l = 0; l <= n; l++) row.push(flowSteps([i * CELL + (CELL * k) / n, j * CELL + (CELL * l) / n])[STEPS]);
+    for (let l = 0; l <= n; l++) row.push(timeMap([i * CELL + (CELL * k) / n, j * CELL + (CELL * l) / n]));
     img.push(row);
   }
   const gap = (a: Point, b: Point) => Math.max(Math.abs(a[0] - b[0]), Math.abs(a[1] - b[1]));
@@ -106,7 +116,6 @@ export type CellImage = {
   corners: Point[][];
   // orbits of a 5 x 5 grid of interior points
   dots: Point[][];
-  hit: Point[];
 };
 
 export function cellImage(cell: Point): CellImage {
@@ -128,7 +137,6 @@ export function cellImage(cell: Point): CellImage {
     boundary: edge.map(flowSteps),
     corners: [0, m, 2 * m, 3 * m].map((k) => flowSteps(edge[k])),
     dots: dots.map(flowSteps),
-    hit: hitCells(cell),
   };
 }
 

@@ -465,13 +465,18 @@ section { padding: 2.2rem 0 0; }
 /* Outer-approximation animation */
 .figure-panel-canvas { background: var(--paper); }
 
-.oa-figure { margin: 1.8rem 0 0; }
+.oa-figure { margin: 1.8rem 0 0; container-type: inline-size; }
 
 .oa-canvas {
   display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
+}
+
+/* A narrow figure puts the Morse graph under the phase plane. */
+@container (max-width: 520px) {
+  .oa-canvas { aspect-ratio: 3 / 4; }
 }
 
 .oa-controls {
@@ -606,7 +611,6 @@ section { padding: 2.2rem 0 0; }
   .page-title { font-size: 1.6rem; }
 
   .figure-pair { grid-template-columns: minmax(0, 1fr); }
-  .oa-canvas { aspect-ratio: 4 / 3; }
   .entry { grid-template-columns: 1fr; gap: 0.25rem; }
   .entry .rail { padding-top: 0; }
 }

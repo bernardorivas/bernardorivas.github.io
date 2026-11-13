@@ -34,12 +34,13 @@ export const softwareCopy = {
   intro:
     "Topological tools provide a way to describe the global behavior of a dynamical system without tracking every trajectory in detail. The goal is to identify attractors and recurrent structure, understand how they are connected, and determine which conclusions persist under perturbation or model uncertainty.",
   projectsHeading: "Projects",
-  // Grid cells carried by the time-0.6 map of the Van der Pol flow; the shaded
-  // cells approximate the closed cells that meet the image (src/lib/outer-approximation.ts).
-  // The earlier Lorenz + persistence figure is in archive/lorenz-persistence.
+  // Grid cells carried by the time-1.3 map of the Van der Pol flow, the outer
+  // approximation from padded samples as a graph on all cells, its Morse sets,
+  // Morse graph and Conley indices (src/lib/morse-figure.ts). The earlier Lorenz + persistence
+  // figure is in archive/lorenz-persistence.
   oaFigure: {
     aria:
-      "Animated grid over the phase plane of the Van der Pol oscillator. One cell at a time moves along the flow to its image under the time-0.6 map, and the grid cells that the image meets are shaded.",
+      "Animated grid over the phase plane of the Van der Pol oscillator. A few cells move along the flow to their images under the time-1.3 map, and the grid cells covering each image are shaded. Then every cell is joined to the cells covering its image. Two groups of cells remain, one around the equilibrium and one around the periodic orbit, and they move aside as the two vertices of a Morse graph, with an arrow from the equilibrium to the periodic orbit. Their Conley indices are shown as (0, 0, [1]) and ([1], [1], 0).",
   },
 };
 
