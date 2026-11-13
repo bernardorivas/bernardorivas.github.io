@@ -195,6 +195,22 @@ export function eventualRestriction(A: number[][]): number[][] {
   }, []);
 }
 
+// For an attractor-repeller pair (A, R) of an isolated invariant set S, given the
+// dimensions a_k, r_k, s_k of the three indices in each degree, the rank of each
+// connecting map d_k: CH_k(R) -> CH_{k-1}(A), as an array indexed by k. Exactness of
+// ... -> CH_k(A) -> CH_k(S) -> CH_k(R) -> CH_{k-1}(A) -> ... gives
+// a_k + r_k - s_k = rank d_{k+1} + rank d_k (the Morse equation), and d_0 = 0.
+export function connectingRanks(a: number[], r: number[], s: number[]): number[] {
+  const n = Math.max(a.length, r.length, s.length);
+  const ranks = [0];
+  for (let k = 0; k < n; k++) ranks.push((a[k] ?? 0) + (r[k] ?? 0) - (s[k] ?? 0) - ranks[k]);
+  // d_n leaves CH_n(R) = 0
+  if (ranks.pop() !== 0 || ranks.some((q, k) => q < 0 || q > Math.min(r[k] ?? 0, k > 0 ? (a[k - 1] ?? 0) : 0))) {
+    throw new Error("the indices do not satisfy the Morse equation");
+  }
+  return ranks;
+}
+
 // ---- relative homology ------------------------------------------------------------
 
 class RelativeHomology {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { betti, conleyIndex, eventualRestriction, signed } from "./conley-index";
+import { betti, conleyIndex, connectingRanks, eventualRestriction, signed } from "./conley-index";
 import { morseGraph } from "./morse-graph";
 import type { Point } from "./outer-approximation";
 
@@ -127,5 +127,21 @@ describe("Conley index of an attracting circle", () => {
     const F = outer(circleMap(true));
     const M = morseSetOf(F, 8, [4, 0]);
     expect(index(M, F)).toEqual([[[1]], [[-1]], []]);
+  });
+});
+
+describe("connecting maps of an attractor-repeller pair", () => {
+  it("have ranks forced by the dimensions of the three indices", () => {
+    // a repelling equilibrium inside an attracting periodic orbit, in the disk they bound
+    expect(connectingRanks([1, 1, 0], [0, 0, 1], [1, 0, 0])).toEqual([0, 0, 1]);
+    // on the line, a repelling point and an attracting one, in an interval with trivial index
+    expect(connectingRanks([1], [0, 1], [])).toEqual([0, 1]);
+    // the same two indices, in a set whose index is their sum
+    expect(connectingRanks([1], [0, 1], [1, 1])).toEqual([0, 0]);
+  });
+
+  it("are refused for dimensions that violate the Morse equation", () => {
+    expect(() => connectingRanks([1], [], [])).toThrow(/Morse equation/);
+    expect(() => connectingRanks([], [0, 1], [])).toThrow(/Morse equation/);
   });
 });

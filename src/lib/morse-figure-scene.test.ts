@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { figureData } from "./morse-figure";
 import { CYCLE_S, STILL, drawFrame, makeScene, staticPart, type Palette } from "./morse-figure-scene";
+import { cellOf } from "./morse-graph";
+import { CELL, type Point } from "./outer-approximation";
 
 const C: Palette = {
   paper: "#faf9f5",
@@ -20,7 +22,13 @@ function recorder() {
   const show = (v: unknown) => (typeof v === "number" ? v.toFixed(4) : String(v));
   const ctx = new Proxy(state, {
     get: (_, key) =>
-      key in state ? state[key] : (...args: unknown[]) => void log.push(`${String(key)}(${args.map(show).join(",")})`),
+      key in state
+        ? state[key]
+        : (...args: unknown[]) => {
+            log.push(`${String(key)}(${args.map(show).join(",")})`);
+            // text is 7 px per character
+            return key === "measureText" ? { width: 7 * String(args[0]).length } : undefined;
+          },
     set: (_, key, value) => {
       state[key] = value;
       log.push(`${String(key)}=${show(value)}`);
@@ -58,6 +66,23 @@ describe("figure frames", () => {
   it("shows both Conley indices in the still frame", () => {
     const text = frame(773, 435, STILL).filter((entry) => entry.startsWith("fillText"));
     expect(text.map((entry) => entry.split(",")[0])).toEqual(["fillText((0", "fillText(([1]"]);
+  });
+
+  it("deforms the copies onto the equilibrium and the periodic orbit, which their cells contain", () => {
+    const cellKey = ([x, y]: number[]) => `${Math.floor(x / CELL + 1e-9)},${Math.floor(y / CELL + 1e-9)}`;
+    const first = new Set(scene.data.sets[0].map((k) => cellOf(k).join(",")));
+    const second = new Set(scene.data.sets[1].map((k) => cellOf(k).join(",")));
+    // the four cells around the equilibrium
+    for (const c of ["-1,-1", "-1,0", "0,-1", "0,0"]) expect(first.has(c)).toBe(true);
+    expect(scene.cycle.every((p) => second.has(cellKey(p)))).toBe(true);
+    // every retracted corner lies on the periodic orbit
+    const gap = (p: Point) => Math.min(...scene.cycle.map((q) => Math.hypot(p[0] - q[0], p[1] - q[1])));
+    expect(Math.max(...scene.retract.flat().map(gap))).toBeLessThan(0.03);
+  });
+
+  it("places the arrow of the still frame between the two indices", () => {
+    const measured = frame(773, 435, STILL).filter((entry) => entry.startsWith("measureText("));
+    expect(measured).toEqual(["measureText((0, 0, [1]))", "measureText(([1], [1], 0))"]);
   });
 
   it("never draws NaN or negative sizes at the canvas sizes the page allows", () => {

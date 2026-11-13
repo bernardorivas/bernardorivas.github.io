@@ -6,7 +6,9 @@
 // their images are shaded; then every cell becomes a vertex with edges to the
 // cells covering its image (an outer approximation from padded samples); the
 // edges outside the Morse sets fade; the Morse sets move aside into the Morse
-// graph, and the Conley index of each appears.
+// graph, where the first contracts to the equilibrium and the second retracts onto
+// the periodic orbit; the Conley index of each appears, and an arrow from the first
+// index to the second marks the connecting map between them.
 
 import type { FigureData } from "./morse-figure";
 import { cellIndex, cellOf } from "./morse-graph";
@@ -33,22 +35,28 @@ const T = {
   scc: [SHOW_END + 3.4, SHOW_END + 4.4],
   slide: [SHOW_END + 5.6, SHOW_END + 6.4],
   fly: [SHOW_END + 6.4, SHOW_END + 7.6],
-  arrow: [SHOW_END + 7.7, SHOW_END + 8.3],
-  index: [SHOW_END + 8.6, SHOW_END + 9.3],
+  // the copies deform onto the invariant sets they isolate: a point and a circle
+  homotopy: [SHOW_END + 8.0, SHOW_END + 9.2],
+  arrow: [SHOW_END + 9.6, SHOW_END + 10.2],
+  index: [SHOW_END + 10.5, SHOW_END + 11.2],
 };
 // delays of the second Morse set behind the first
-const LAG = { scc: 0.45, fly: 0.35, index: 0.6 };
-export const CYCLE_S = SHOW_END + 16;
+const LAG = { scc: 0.45, fly: 0.35, homotopy: 0.35, index: 0.6 };
+// the arrow between the indices grows once both are in place
+const LINK = [T.index[1] + LAG.index + 0.3, T.index[1] + LAG.index + 0.9];
+export const CYCLE_S = SHOW_END + 17.3;
 // the figure fades over [OUT[0], OUT[0] + 0.55], then the bare plane moves back to the center
 const OUT = [CYCLE_S - 1, CYCLE_S];
-// the frame shown when motion is reduced: the Morse graph with both indices
-export const STILL = SHOW_END + 13;
+// the frame shown when motion is reduced: the Morse graph with both indices and the arrow between them
+export const STILL = SHOW_END + 14.5;
+// radius of the point the first Morse set contracts to, in pixels
+const DOT_R = 4;
 // stretches of the loop in which the picture does not change
 const STATIC: [number, number][] = [
   [T.edges[1], T.scc[0]],
   [T.scc[1] + LAG.scc, T.slide[0]],
   [T.arrow[1], T.index[0]],
-  [T.index[1] + LAG.index, OUT[0]],
+  [LINK[1], OUT[0]],
 ];
 // the static stretch containing t, or -1; frames within one stretch are identical
 export const staticPart = (t: number) => STATIC.findIndex(([a, b]) => a < t && t < b);
@@ -80,9 +88,32 @@ export type Scene = {
   // bounding box of each Morse set in cell units, [i0, i1, j0, j1] with i1, j1 exclusive
   boxes: [number, number, number, number][];
   labels: string[];
+  // whether the connecting map from the first index to the second is not zero
+  linked: boolean;
+  // for each cell of the second Morse set, its corners (top left, top right, bottom
+  // right, bottom left) moved along the rays from the equilibrium onto the periodic
+  // orbit, which is star-shaped about it
+  retract: Point[][];
+  // the point of the periodic orbit above the equilibrium, where the edge of the Morse graph ends
+  top: Point;
 };
 
 const matrix = (m: number[][]) => (m.length === 0 ? "0" : `[${m.map((row) => row.join(" ")).join("; ")}]`);
+
+// the point of a closed curve, star-shaped about the origin, on the ray at angle th
+function onRay(byAngle: [number, Point][], th: number): Point {
+  const n = byAngle.length;
+  let k = byAngle.findIndex(([a]) => a > th);
+  if (k < 0) k = 0;
+  const [a1, p1] = byAngle[k];
+  const [a0, p0] = byAngle[(k + n - 1) % n];
+  const span = (((a1 - a0) % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+  const f = span > 0 ? ((((th - a0) % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI)) / span : 0;
+  const q: Point = [lerp(p0[0], p1[0], f), lerp(p0[1], p1[1], f)];
+  // back onto the ray
+  const r = Math.hypot(q[0], q[1]);
+  return [r * Math.cos(th), r * Math.sin(th)];
+}
 
 export function makeScene(data: FigureData): Scene {
   const n = data.map.length;
@@ -112,17 +143,41 @@ export function makeScene(data: FigureData): Scene {
     const js = cells.map((c) => c[1]);
     return [Math.min(...is), Math.max(...is) + 1, Math.min(...js), Math.max(...js) + 1] as [number, number, number, number];
   });
+  const cycle = limitCycle();
+  const byAngle = cycle.map((p): [number, Point] => [Math.atan2(p[1], p[0]), p]).sort((a, b) => a[0] - b[0]);
+  const ray = ([x, y]: Point) => onRay(byAngle, Math.atan2(y, x));
+  const retract = (data.sets[1] ?? []).map((k) => {
+    const [i, j] = cellOf(k);
+    return [
+      [i, j + 1],
+      [i + 1, j + 1],
+      [i + 1, j],
+      [i, j],
+    ].map(([a, b]) => ray([a * CELL, b * CELL]));
+  });
+  // the panel x of the equilibrium in the first copy, as a plane x in the second copy
+  const centerX = (p: number) => (boxes[p] ? (boxes[p][0] + boxes[p][1]) / 2 : 0);
+  const x0 = (centerX(1) - centerX(0)) * CELL;
+  const top = cycle.reduce<Point>((best, p, m) => {
+    const q = cycle[(m + 1) % cycle.length];
+    if ((p[0] - x0) * (q[0] - x0) > 0 || p[0] === q[0]) return best;
+    const y = lerp(p[1], q[1], (x0 - p[0]) / (q[0] - p[0]));
+    return y > best[1] ? [x0, y] : best;
+  }, [x0, -Infinity]);
   return {
     data,
     images: CELLS.map(cellImage),
     hits: CELLS.map((c) => data.map[cellIndex(c)].map(cellOf)),
-    cycle: limitCycle(),
+    cycle,
     loose,
     inner,
     start,
     setOf,
     boxes,
     labels: data.index.map((maps) => `(${maps.map(matrix).join(", ")})`),
+    linked: data.connection.some((rank) => rank > 0),
+    retract,
+    top,
   };
 }
 
@@ -216,6 +271,22 @@ export function drawFrame(
     ctx.beginPath();
     pts.forEach((p, k) => (k ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])));
     if (close) ctx.closePath();
+  };
+  // an arrow from a toward b, drawn up to the fraction s of its length
+  const arrowFrom = (a: Point, b: Point, s: number) => {
+    const tip: Point = [lerp(a[0], b[0], s), lerp(a[1], b[1], s)];
+    const ang = Math.atan2(b[1] - a[1], b[0] - a[0]);
+    const head = 7;
+    if (Math.hypot(tip[0] - a[0], tip[1] - a[1]) > head * 0.7) {
+      path([a, [tip[0] - Math.cos(ang) * head * 0.7, tip[1] - Math.sin(ang) * head * 0.7]]);
+      ctx.stroke();
+    }
+    ctx.beginPath();
+    ctx.moveTo(tip[0], tip[1]);
+    ctx.lineTo(tip[0] - head * Math.cos(ang - 0.42), tip[1] - head * Math.sin(ang - 0.42));
+    ctx.lineTo(tip[0] - head * Math.cos(ang + 0.42), tip[1] - head * Math.sin(ang + 0.42));
+    ctx.closePath();
+    ctx.fill();
   };
   // edges are hairlines: one device pixel
   const hair = 1 / dpr;
@@ -395,67 +466,82 @@ export function drawFrame(
   });
 
   // the Morse sets move aside and become the vertices of the Morse graph; the
-  // later (larger) sets are drawn first, so the earlier ones stay in view
-  const mini = (p: number, [i, j]: Point): Point => {
+  // later (larger) sets are drawn first, so the earlier ones stay in view. There the
+  // first contracts to the equilibrium and the second retracts along rays from the
+  // equilibrium onto the periodic orbit; their colors stay.
+  // a point of the plane in the copy of Morse set p
+  const toCopy = (p: number, [x, y]: Point): Point => {
     const [i0, i1, j0, j1] = scene.boxes[p];
-    return [L.nodes[p][0] + (i - (i0 + i1) / 2) * L.mini, L.nodes[p][1] - (j + 1 - (j0 + j1) / 2) * L.mini];
+    return [L.nodes[p][0] + (x / CELL - (i0 + i1) / 2) * L.mini, L.nodes[p][1] - (y / CELL - (j0 + j1) / 2) * L.mini];
   };
+  const equilibrium = toCopy(0, [0, 0]);
   for (let p = data.sets.length - 1; p >= 0; p--) {
     const t0 = T.fly[0] + LAG.fly * p;
     const e = phase(t, t0, T.fly[1] + LAG.fly * p);
     const born = clamp01((t - t0) / 0.3);
     if (e <= 0 || out <= 0) continue;
+    const h = phase(t, T.homotopy[0] + LAG.homotopy * p, T.homotopy[1] + LAG.homotopy * p);
     const color = C[SET_COLOR[p]];
     ctx.fillStyle = color;
     ctx.strokeStyle = color;
     ctx.lineWidth = 1;
-    for (const k of data.sets[p]) {
-      const cell = cellOf(k);
-      const [x, y, w] = rectOf(cell);
-      const [mx, my] = mini(p, cell);
-      const rx = lerp(x, mx, e);
-      const ry = lerp(y, my, e);
-      const rw = lerp(w, L.mini, e);
-      ctx.globalAlpha = out * born * (0.3 + 0.2 * e);
-      ctx.fillRect(rx, ry, rw, rw);
-      ctx.globalAlpha = out * born;
-      ctx.strokeRect(rx + 0.5, ry + 0.5, rw - 1, rw - 1);
+    // the cells, which fade as the point or the circle they deform onto appears
+    const fade = out * (1 - phase(h, 0.75, 1));
+    data.sets[p].forEach((k, m) => {
+      if (fade <= 0) return;
+      const [i, j] = cellOf(k);
+      if (h <= 0) {
+        const [x, y, w] = rectOf([i, j]);
+        const [mx, my] = toCopy(p, [i * CELL, (j + 1) * CELL]);
+        const rx = lerp(x, mx, e);
+        const ry = lerp(y, my, e);
+        const rw = lerp(w, L.mini, e);
+        ctx.globalAlpha = out * born * (0.3 + 0.2 * e);
+        ctx.fillRect(rx, ry, rw, rw);
+        ctx.globalAlpha = out * born;
+        ctx.strokeRect(rx + 0.5, ry + 0.5, rw - 1, rw - 1);
+        return;
+      }
+      const corners: Point[] = [
+        [i * CELL, (j + 1) * CELL],
+        [(i + 1) * CELL, (j + 1) * CELL],
+        [(i + 1) * CELL, j * CELL],
+        [i * CELL, j * CELL],
+      ];
+      const targets = p === 0 ? corners.map((): Point => [0, 0]) : scene.retract[m];
+      path(
+        corners.map((c, r) => toCopy(p, [lerp(c[0], targets[r][0], h), lerp(c[1], targets[r][1], h)])),
+        true,
+      );
+      ctx.globalAlpha = fade * 0.5;
+      ctx.fill();
+      ctx.globalAlpha = fade;
+      ctx.stroke();
+    });
+    const shape = out * phase(h, 0.6, 1);
+    if (shape > 0) {
+      ctx.globalAlpha = shape;
+      if (p === 0) {
+        ctx.beginPath();
+        ctx.arc(equilibrium[0], equilibrium[1], DOT_R, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.lineWidth = 2;
+        path(scene.cycle.map((q) => toCopy(1, q)), true);
+        ctx.stroke();
+      }
     }
   }
 
-  // edges of the Morse graph, from the bottom row of one vertex to the top row of the next
+  // the edge of the Morse graph, from the point down to the circle
   const arrow = phase(t, T.arrow[0], T.arrow[1]) * out;
-  if (arrow > 0) {
+  if (arrow > 0 && data.edges.some(([p, q]) => p === 0 && q === 1)) {
     ctx.strokeStyle = C.inkSoft;
     ctx.fillStyle = C.inkSoft;
     ctx.lineWidth = 1.4;
     ctx.globalAlpha = arrow;
-    const rowX = (p: number, top: boolean) => {
-      const [, , j0, j1] = scene.boxes[p];
-      return data.sets[p]
-        .map(cellOf)
-        .filter(([, j]) => j === (top ? j1 - 1 : j0))
-        .map((c) => mini(p, c)[0] + L.mini / 2);
-    };
-    const nearest = (xs: number[], x: number) => xs.reduce((u, v) => (Math.abs(v - x) < Math.abs(u - x) ? v : u));
-    for (const [p, q] of data.edges) {
-      const xb = nearest(rowX(q, true), L.nodes[q][0]);
-      const xa = nearest(rowX(p, false), xb);
-      const half = (r: number) => ((scene.boxes[r][3] - scene.boxes[r][2]) * L.mini) / 2;
-      const a: Point = [xa, L.nodes[p][1] + half(p) + 7];
-      const b: Point = [xb, L.nodes[q][1] - half(q) - 7];
-      const tip: Point = [lerp(a[0], b[0], arrow), lerp(a[1], b[1], arrow)];
-      const ang = Math.atan2(tip[1] - a[1], tip[0] - a[0]);
-      const head = 7;
-      path([a, [tip[0] - Math.cos(ang) * head * 0.7, tip[1] - Math.sin(ang) * head * 0.7]]);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(tip[0], tip[1]);
-      ctx.lineTo(tip[0] - head * Math.cos(ang - 0.42), tip[1] - head * Math.sin(ang - 0.42));
-      ctx.lineTo(tip[0] - head * Math.cos(ang + 0.42), tip[1] - head * Math.sin(ang + 0.42));
-      ctx.closePath();
-      ctx.fill();
-    }
+    const end = toCopy(1, scene.top);
+    arrowFrom([equilibrium[0], equilibrium[1] + DOT_R + 7], [end[0], end[1] - 7], arrow);
   }
 
   // the Conley index of each Morse set: its index map on H_0, H_1, H_2 up to shift equivalence
@@ -469,6 +555,19 @@ export function drawFrame(
     ctx.textBaseline = "middle";
     ctx.fillText(label, L.labelX - 6 * (1 - a), L.labelY[p]);
   });
+
+  // the connecting map from the first index to the second, when it is not zero: a
+  // vertical arrow halfway between the centers of the two labels
+  const link = phase(t, LINK[0], LINK[1]) * out;
+  if (link > 0 && scene.linked) {
+    ctx.font = `${L.font}px ${C.serif}`;
+    const x = L.labelX + (ctx.measureText(scene.labels[0]).width + ctx.measureText(scene.labels[1]).width) / 4;
+    ctx.strokeStyle = C.inkSoft;
+    ctx.fillStyle = C.inkSoft;
+    ctx.lineWidth = 1.4;
+    ctx.globalAlpha = link;
+    arrowFrom([x, L.labelY[0] + 0.8 * L.font], [x, L.labelY[1] - 0.8 * L.font], link);
+  }
 
   // the equilibrium
   ctx.globalAlpha = 1;
