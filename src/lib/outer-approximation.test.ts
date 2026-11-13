@@ -16,13 +16,13 @@ describe("outer approximation figure", () => {
     for (const cell of CELLS) expect(hitCells(cell)).toEqual(EXPECTED[cell.join(",")]);
   });
 
-  it("keeps every image inside the drawn band |y| < 3.25", () => {
+  it("keeps every image inside the drawn grid, which spans -3 <= y <= 3", () => {
     for (const cell of CELLS) {
       const image = cellImage(cell);
-      for (const orbit of image.boundary) expect(Math.abs(orbit[STEPS][1])).toBeLessThan(3.25);
+      for (const orbit of image.boundary) expect(Math.abs(orbit[STEPS][1])).toBeLessThanOrEqual(3);
       for (const [, j] of image.hit) {
-        expect(j * 0.5).toBeGreaterThanOrEqual(-3.25);
-        expect((j + 1) * 0.5).toBeLessThanOrEqual(3.25);
+        expect(j * 0.5).toBeGreaterThanOrEqual(-3);
+        expect((j + 1) * 0.5).toBeLessThanOrEqual(3);
       }
     }
   });

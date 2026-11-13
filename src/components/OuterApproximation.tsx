@@ -19,8 +19,9 @@ import {
   type Point,
 } from "@/lib/outer-approximation";
 
-// seconds spent on each cell
+// seconds spent on each cell, and on the whole loop
 const STEP_S = 4.5;
+const CYCLE_S = STEP_S * CELLS.length;
 // visible half-height of the phase plane
 const Y_HALF = 3.25;
 // frame shown when motion is reduced: the second cell with its hit cells shaded
@@ -37,12 +38,14 @@ export default function OuterApproximation() {
   const figureRef = useRef<HTMLElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const toggleRef = useRef<HTMLButtonElement | null>(null);
+  const rangeRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     const figure = figureRef.current;
     const canvas = canvasRef.current;
     const toggle = toggleRef.current;
-    if (!figure || !canvas || !toggle) return;
+    const range = rangeRef.current;
+    if (!figure || !canvas || !toggle || !range) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
@@ -100,20 +103,20 @@ export default function OuterApproximation() {
 
       c.clearRect(0, 0, W, H);
 
-      // grid over the whole canvas, centered on the origin
+      // the whole cells that fit in the canvas, centered on the origin
       c.globalAlpha = 1;
       c.strokeStyle = palette.line;
       c.lineWidth = 1;
       c.beginPath();
-      const iMax = Math.ceil(W / 2 / side);
-      const jMax = Math.ceil(H / 2 / side);
-      for (let i = -iMax; i <= iMax; i++) {
-        c.moveTo(X(i * CELL), 0);
-        c.lineTo(X(i * CELL), H);
+      const nx = Math.floor(W / 2 / side);
+      const ny = Math.floor(H / 2 / side);
+      for (let i = -nx; i <= nx; i++) {
+        c.moveTo(X(i * CELL), Y(ny * CELL));
+        c.lineTo(X(i * CELL), Y(-ny * CELL));
       }
-      for (let j = -jMax; j <= jMax; j++) {
-        c.moveTo(0, Y(j * CELL));
-        c.lineTo(W, Y(j * CELL));
+      for (let j = -ny; j <= ny; j++) {
+        c.moveTo(X(-nx * CELL), Y(j * CELL));
+        c.lineTo(X(nx * CELL), Y(j * CELL));
       }
       c.stroke();
 
@@ -123,7 +126,8 @@ export default function OuterApproximation() {
       c.stroke();
       c.setLineDash([]);
 
-      const t = clock % (STEP_S * images.length);
+      const t = clock % CYCLE_S;
+      range!.value = String(t);
       const image = images[Math.floor(t / STEP_S)];
       const u = t % STEP_S;
       const env = 1 - phase(u, STEP_S - 0.5, STEP_S);
@@ -226,6 +230,17 @@ export default function OuterApproximation() {
     }
     toggle.addEventListener("click", onToggleClick);
 
+    // dragging the time bar pauses the animation at that time
+    function onScrub() {
+      clock = Math.min(Number(range!.value), CYCLE_S - 1e-3);
+      if (!paused) {
+        paused = true;
+        syncToggle();
+      }
+      draw();
+    }
+    range.addEventListener("input", onScrub);
+
     let observer: IntersectionObserver | undefined;
     if (typeof IntersectionObserver === "function") {
       observer = new IntersectionObserver(
@@ -271,6 +286,7 @@ export default function OuterApproximation() {
     return () => {
       window.cancelAnimationFrame(raf);
       toggle.removeEventListener("click", onToggleClick);
+      range.removeEventListener("input", onScrub);
       observer?.disconnect();
       themeObserver.disconnect();
       scheme.removeEventListener("change", onTheme);
@@ -281,13 +297,11 @@ export default function OuterApproximation() {
 
   const copy = softwareCopy.oaFigure;
   return (
-    <figure className="research-figure" ref={figureRef}>
-      <div className="figure-panel figure-panel-canvas">
-        <canvas ref={canvasRef} className="oa-canvas" width={960} height={540} role="img" aria-label={copy.aria}>
-          {copy.aria}
-        </canvas>
-      </div>
-      <div className="figure-controls">
+    <figure className="oa-figure" ref={figureRef}>
+      <canvas ref={canvasRef} className="oa-canvas" width={960} height={540} role="img" aria-label={copy.aria}>
+        {copy.aria}
+      </canvas>
+      <div className="oa-controls">
         <button
           ref={toggleRef}
           type="button"
@@ -297,6 +311,7 @@ export default function OuterApproximation() {
           data-state="playing"
           title="Pause animation"
         />
+        <input ref={rangeRef} type="range" min={0} max={CYCLE_S} step="any" defaultValue={0} aria-label="Time" />
       </div>
     </figure>
   );
