@@ -57,6 +57,7 @@ export default function OuterApproximation() {
     let clock = paused ? STILL : 0;
     let last: number | null = null;
     let raf = 0;
+    let scrubbing = false;
     let palette = { paper: "", ink: "", inkSoft: "", line: "", graph: "", blue: "", gold: "" };
 
     function readPalette() {
@@ -204,11 +205,13 @@ export default function OuterApproximation() {
     function frame(now: number) {
       raf = 0;
       // cap the step so returning to a background tab does not jump the clock
-      if (last !== null) clock += Math.min(0.1, (now - last) / 1000);
+      // while the time bar is held, the clock stays where the bar puts it
+      if (last !== null && !scrubbing) clock += Math.min(0.1, (now - last) / 1000);
       last = now;
-      draw();
+      // schedule the next frame first, so a failed draw cannot end the loop
       if (!paused && visible) raf = window.requestAnimationFrame(frame);
       else last = null;
+      draw();
     }
 
     function play() {
@@ -230,16 +233,21 @@ export default function OuterApproximation() {
     }
     toggle.addEventListener("click", onToggleClick);
 
-    // dragging the time bar pauses the animation at that time
+    // dragging the time bar moves the clock; playback continues from there on release
     function onScrub() {
       clock = Math.min(Number(range!.value), CYCLE_S - 1e-3);
-      if (!paused) {
-        paused = true;
-        syncToggle();
-      }
       draw();
     }
+    const onScrubStart = () => {
+      scrubbing = true;
+    };
+    const onScrubEnd = () => {
+      scrubbing = false;
+    };
     range.addEventListener("input", onScrub);
+    range.addEventListener("pointerdown", onScrubStart);
+    window.addEventListener("pointerup", onScrubEnd);
+    window.addEventListener("pointercancel", onScrubEnd);
 
     let observer: IntersectionObserver | undefined;
     if (typeof IntersectionObserver === "function") {
@@ -287,6 +295,9 @@ export default function OuterApproximation() {
       window.cancelAnimationFrame(raf);
       toggle.removeEventListener("click", onToggleClick);
       range.removeEventListener("input", onScrub);
+      range.removeEventListener("pointerdown", onScrubStart);
+      window.removeEventListener("pointerup", onScrubEnd);
+      window.removeEventListener("pointercancel", onScrubEnd);
       observer?.disconnect();
       themeObserver.disconnect();
       scheme.removeEventListener("change", onTheme);

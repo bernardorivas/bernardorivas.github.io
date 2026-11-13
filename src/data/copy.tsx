@@ -35,7 +35,7 @@ export const softwareCopy = {
     "Topological tools provide a way to describe the global behavior of a dynamical system without tracking every trajectory in detail. The goal is to identify attractors and recurrent structure, understand how they are connected, and determine which conclusions persist under perturbation or model uncertainty.",
   projectsHeading: "Projects",
   // Grid cells carried by the time-0.6 map of the Van der Pol flow; the shaded
-  // cells are those hit by the images of a 51 x 51 grid of points of the cell.
+  // cells approximate the closed cells that meet the image (src/lib/outer-approximation.ts).
   // The earlier Lorenz + persistence figure is in archive/lorenz-persistence.
   oaFigure: {
     aria:

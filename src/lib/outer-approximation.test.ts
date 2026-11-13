@@ -2,18 +2,23 @@ import { describe, expect, it } from "vitest";
 import { CELLS, STEPS, cellImage, hitCells, limitCycle, type Point } from "./outer-approximation";
 
 // Hit sets for the four animated cells, computed separately with NumPy using
-// the same RK4 scheme and 51 x 51 samples. On these cells they also agree with
-// a 1000 x 1000 sampling.
+// the same RK4 scheme, 51 x 51 samples and padding. On all 144 cells of
+// [-3, 3]^2 the 51 x 51 sets contain those from 1001 x 1001 samples.
 const EXPECTED: Record<string, Point[]> = {
   "-5,5": [[-4, 1], [-4, 2], [-3, 2], [-3, 3], [-2, 3], [-2, 4], [-2, 5]],
   "-3,2": [[-2, 2], [-2, 3], [-2, 4], [-1, 3], [-1, 4], [-1, 5], [0, 4], [0, 5]],
-  "-1,-1": [[-2, -2], [-2, -1], [-2, 0], [-1, -2], [-1, -1], [-1, 0], [0, 0]],
+  "-1,-1": [[-2, -2], [-2, -1], [-2, 0], [-1, -2], [-1, -1], [-1, 0], [0, -1], [0, 0]],
   "0,-3": [[-3, -5], [-3, -4], [-2, -6], [-2, -5], [-2, -4], [-2, -3], [-1, -5], [-1, -4]],
 };
 
 describe("outer approximation figure", () => {
   it("matches the reference hit sets", () => {
     for (const cell of CELLS) expect(hitCells(cell)).toEqual(EXPECTED[cell.join(",")]);
+  });
+
+  it("covers all four cells at the fixed point 0, which lies in the image of [-1/2, 0]^2", () => {
+    const hit = hitCells([-1, -1]).map((c) => c.join(","));
+    for (const c of ["-1,-1", "-1,0", "0,-1", "0,0"]) expect(hit).toContain(c);
   });
 
   it("keeps every image inside the drawn grid, which spans -3 <= y <= 3", () => {

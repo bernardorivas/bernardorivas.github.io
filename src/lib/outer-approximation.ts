@@ -2,8 +2,9 @@
 // grid cells hit by the images of sample points of a cell. Cell (i, j) is the
 // square [i h, (i + 1) h] x [j h, (j + 1) h] with h = CELL.
 //
-// The hit sets come from sampling, not from rigorous enclosures, so they
-// illustrate an outer approximation rather than compute one.
+// hitCells approximates the smallest outer approximation, the closed cells
+// that meet f(|xi|), so that f(|xi|) lies in the interior of their union. It
+// pads sampled image points instead of using rigorous enclosures.
 
 export type Point = [number, number];
 
@@ -58,20 +59,39 @@ export function limitCycle(dt = 0.01): Point[] {
   return pts;
 }
 
-// indices of the cells hit by the images of the sample points of cell (i, j), sorted
+// Indices of the closed cells meeting the image of cell (i, j), sorted. Each
+// sampled image point q stands for the box q + [-d, d]^2, where d is the largest
+// sup-norm distance between the images of adjacent sample points; to first order
+// every point of the image lies within d of a sampled one.
 export function hitCells([i, j]: Point): Point[] {
-  const x0 = i * CELL;
-  const y0 = j * CELL;
+  const n = SAMPLES;
+  const img: Point[][] = [];
+  for (let k = 0; k <= n; k++) {
+    const row: Point[] = [];
+    for (let l = 0; l <= n; l++) row.push(flowSteps([i * CELL + (CELL * k) / n, j * CELL + (CELL * l) / n])[STEPS]);
+    img.push(row);
+  }
+  const gap = (a: Point, b: Point) => Math.max(Math.abs(a[0] - b[0]), Math.abs(a[1] - b[1]));
+  let d = 0;
+  for (let k = 0; k <= n; k++) {
+    for (let l = 0; l <= n; l++) {
+      if (k < n) d = Math.max(d, gap(img[k][l], img[k + 1][l]));
+      if (l < n) d = Math.max(d, gap(img[k][l], img[k][l + 1]));
+    }
+  }
   const seen = new Set<string>();
   const out: Point[] = [];
-  for (let k = 0; k <= SAMPLES; k++) {
-    for (let l = 0; l <= SAMPLES; l++) {
-      const q = flowSteps([x0 + (CELL * k) / SAMPLES, y0 + (CELL * l) / SAMPLES])[STEPS];
-      const c: Point = [Math.floor(q[0] / CELL), Math.floor(q[1] / CELL)];
-      const key = c.join(",");
-      if (!seen.has(key)) {
-        seen.add(key);
-        out.push(c);
+  for (const row of img) {
+    for (const [x, y] of row) {
+      // the closed cell [a h, (a + 1) h] meets [x - d, x + d] iff these bounds hold, likewise in y
+      for (let a = Math.ceil((x - d) / CELL) - 1; a <= Math.floor((x + d) / CELL); a++) {
+        for (let b = Math.ceil((y - d) / CELL) - 1; b <= Math.floor((y + d) / CELL); b++) {
+          const key = `${a},${b}`;
+          if (!seen.has(key)) {
+            seen.add(key);
+            out.push([a, b]);
+          }
+        }
       }
     }
   }
