@@ -34,16 +34,12 @@ export const softwareCopy = {
   intro:
     "Topological tools provide a way to describe the global behavior of a dynamical system without tracking every trajectory in detail. The goal is to identify attractors and recurrent structure, understand how they are connected, and determine which conclusions persist under perturbation or model uncertainty.",
   projectsHeading: "Projects",
-  // Sliding-window Lorenz + persistence animation. The pairs are precomputed
-  // with ripser on the 3D windowed points; the filtration is capped at 15 so
-  // the axis is not dominated by large-scale classes bridging the two wings.
-  phFigure: {
-    trajLabel: "Timeseries data from the Lorenz system",
-    diagramLabel: "Persistence diagram of the data (H_1)",
-    trajAria:
-      "Animated Lorenz trajectory in the (x, z) plane with a highlighted sliding time window",
-    diagramAria:
-      "Animated persistence diagram of the points in the current time window",
+  // Grid cells carried by the time-0.6 map of the Van der Pol flow; the shaded
+  // cells are those hit by the images of a 51 x 51 grid of points of the cell.
+  // The earlier Lorenz + persistence figure is in archive/lorenz-persistence.
+  oaFigure: {
+    aria:
+      "Animated grid over the phase plane of the Van der Pol oscillator. One cell at a time moves along the flow to its image under the time-0.6 map, and the grid cells that the image meets are shaded.",
   },
 };
 

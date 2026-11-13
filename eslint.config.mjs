@@ -18,6 +18,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Retired figures, kept for restoration and excluded from the build.
+    "archive/**",
   ]),
 ]);
 

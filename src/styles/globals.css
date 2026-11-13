@@ -462,16 +462,14 @@ section { padding: 2.2rem 0 0; }
   text-align: center;
 }
 
-/* Lorenz + persistence animation */
-.figure-pair-even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
+/* Outer-approximation animation */
 .figure-panel-canvas { background: var(--paper); }
 
-.ph-canvas {
+.oa-canvas {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 16 / 9;
 }
 
 .figure-controls {
@@ -587,6 +585,7 @@ section { padding: 2.2rem 0 0; }
   .page-title { font-size: 1.6rem; }
 
   .figure-pair { grid-template-columns: minmax(0, 1fr); }
+  .oa-canvas { aspect-ratio: 4 / 3; }
   .entry { grid-template-columns: 1fr; gap: 0.25rem; }
   .entry .rail { padding-top: 0; }
 }

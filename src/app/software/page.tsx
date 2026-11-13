@@ -1,7 +1,7 @@
 import { buildMetadata } from "@/lib/metadata";
 import { softwareCopy } from "@/data/copy";
 import { projects } from "@/data/projects";
-import LorenzPersistence from "@/components/LorenzPersistence";
+import OuterApproximation from "@/components/OuterApproximation";
 import ProjectCard from "@/components/ProjectCard";
 
 export const metadata = buildMetadata({
@@ -18,7 +18,7 @@ export default function Software() {
         <h1 className="page-title">{softwareCopy.h1}</h1>
         <p className="page-intro software-intro">{softwareCopy.intro}</p>
 
-        <LorenzPersistence />
+        <OuterApproximation />
 
         <section aria-labelledby="software-projects-title">
           <h2 className="group-head" id="software-projects-title">{softwareCopy.projectsHeading}</h2>
