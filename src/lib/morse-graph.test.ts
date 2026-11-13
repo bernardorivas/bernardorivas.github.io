@@ -45,12 +45,10 @@ describe("Morse graph of the figure", () => {
     expect(betti(source)).toEqual([1, 0, 0]);
   });
 
-  it("computes each index from images that stay in the grid", () => {
-    // the index pair (M u F(M), F(M) \ M) and the images of its cells, uncut
-    data.sets.forEach((set, p) => {
-      for (const k of [...set, ...data.exits[p]]) expect(hitCells(cellOf(k)).every(inGrid)).toBe(true);
-    });
-    expect(data.exits.map((e) => e.length)).toEqual([42, 0]);
+  it("computes the indices from images that stay in the grid", () => {
+    // the cells of the index triple, the Morse sets and the cells between them, have uncut images
+    for (const k of [...data.sets.flat(), ...data.between]) expect(hitCells(cellOf(k)).every(inGrid)).toBe(true);
+    expect(data.between).toHaveLength(44);
   });
 
   it("finds the Conley indices of a repelling equilibrium and an attracting periodic orbit", () => {

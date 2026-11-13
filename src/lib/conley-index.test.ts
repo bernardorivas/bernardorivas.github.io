@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { betti, conleyIndex, connectingRanks, eventualRestriction, signed } from "./conley-index";
+import { betti, conleyIndex, connectingMap, connectingRanks, eventualRestriction, pairIndex, rank, signed } from "./conley-index";
 import { morseGraph } from "./morse-graph";
 import type { Point } from "./outer-approximation";
 
@@ -127,6 +127,73 @@ describe("Conley index of an attracting circle", () => {
     const F = outer(circleMap(true));
     const M = morseSetOf(F, 8, [4, 0]);
     expect(index(M, F)).toEqual([[[1]], [[-1]], []]);
+  });
+});
+
+describe("connecting maps of a pair of cubical sets", () => {
+  const block = (i0: number, i1: number, j0: number, j1: number) => {
+    const out: Point[] = [];
+    for (let i = i0; i < i1; i++) for (let j = j0; j < j1; j++) out.push([i, j]);
+    return out;
+  };
+  const ring = block(0, 3, 0, 3).filter(([i, j]) => i !== 1 || j !== 1);
+
+  it("send the disk relative to its ring onto the loop of the ring", () => {
+    expect(connectingMap(block(0, 3, 0, 3), ring).map(rank)).toEqual([0, 0, 1]);
+  });
+
+  it("vanish when the rest of the set is apart from the subset", () => {
+    expect(connectingMap([...ring, [6, 6]], ring).map(rank)).toEqual([0, 0, 0]);
+  });
+});
+
+describe("an index triple of a repelling fixed point inside an attracting circle", () => {
+  // the radius r goes to r (1 + (1 - r^2 / 16) / 2), and the angle turns by 0.3
+  const F = outer(([x, y]) => {
+    const s = 1 + 0.5 * (1 - (x * x + y * y) / 16);
+    return [s * (Math.cos(0.3) * x - Math.sin(0.3) * y), s * (Math.sin(0.3) * x + Math.cos(0.3) * y)];
+  });
+  const R = morseSetOf(F, 8, [0, 0]);
+  const A = morseSetOf(F, 8, [4, 0]);
+  // N: the cells on a path from R to A
+  const key = ([i, j]: Point) => `${i},${j}`;
+  const inGrid = ([i, j]: Point) => -8 <= i && i < 8 && -8 <= j && j < 8;
+  const reach = (from: Point[], step: (c: Point) => Point[]) => {
+    const seen = new Map(from.map((c) => [key(c), c]));
+    const stack = [...from];
+    while (stack.length) {
+      for (const d of step(stack.pop()!)) {
+        if (inGrid(d) && !seen.has(key(d))) {
+          seen.set(key(d), d);
+          stack.push(d);
+        }
+      }
+    }
+    return seen;
+  };
+  const all: Point[] = [];
+  for (let i = -8; i < 8; i++) for (let j = -8; j < 8; j++) all.push([i, j]);
+  const images = new Map(all.map((c) => [key(c), F(c).filter(inGrid)]));
+  const preimages = new Map<string, Point[]>(all.map((c) => [key(c), []]));
+  for (const c of all) for (const d of images.get(key(c))!) preimages.get(key(d))!.push(c);
+  const forward = reach(R, (c) => images.get(key(c))!);
+  const backward = reach(A, (c) => preimages.get(key(c))!);
+  const N = [...forward.values()].filter((c) => backward.has(key(c)));
+
+  it("gives the index of the circle from (A, empty set) and that of the point from (N, A)", () => {
+    expect(betti(N)).toEqual([1, 0, 0]);
+    expect(pairIndex(A, [], F).shift.map((m) => m.map((row) => row.map(signed)))).toEqual([[[1]], [[1]], []]);
+    expect(pairIndex(N, A, F).shift.map((m) => m.map((row) => row.map(signed)))).toEqual([[], [], [[1]]]);
+    // the same as from the Morse sets alone
+    expect(pairIndex(N, A, F).shift).toEqual(conleyIndex(R, F).shift);
+  });
+
+  it("has a connecting map of rank 1 from H_2 of the pair (N, A) to H_1 of A", () => {
+    expect(connectingMap(N, A).map(rank)).toEqual([0, 0, 1]);
+  });
+
+  it("refuses a pair whose exit set leads back into the rest", () => {
+    expect(() => pairIndex(N, R, F)).toThrow(/not an index pair/);
   });
 });
 

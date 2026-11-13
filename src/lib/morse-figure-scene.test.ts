@@ -53,7 +53,7 @@ describe("figure frames", () => {
       const part = staticPart(t);
       if (part >= 0) stretches.set(part, [...(stretches.get(part) ?? []), t]);
     }
-    expect(stretches.size).toBe(4);
+    expect(stretches.size).toBe(6);
     for (const times of stretches.values()) {
       for (const [W, H] of [[773, 435], [360, 480]]) {
         const first = frame(W, H, times[0]);
@@ -65,10 +65,10 @@ describe("figure frames", () => {
 
   it("shows both Conley indices in the still frame", () => {
     const text = frame(773, 435, STILL).filter((entry) => entry.startsWith("fillText"));
-    expect(text.map((entry) => entry.split(",")[0])).toEqual(["fillText((0", "fillText(([1]"]);
+    expect(text.map((entry) => entry.split(",")[0])).toEqual(["fillText((0", "fillText((1"]);
   });
 
-  it("deforms the copies onto the equilibrium and the periodic orbit, which their cells contain", () => {
+  it("retracts the second copy onto the periodic orbit, which its cells contain", () => {
     const cellKey = ([x, y]: number[]) => `${Math.floor(x / CELL + 1e-9)},${Math.floor(y / CELL + 1e-9)}`;
     const first = new Set(scene.data.sets[0].map((k) => cellOf(k).join(",")));
     const second = new Set(scene.data.sets[1].map((k) => cellOf(k).join(",")));
@@ -77,12 +77,24 @@ describe("figure frames", () => {
     expect(scene.cycle.every((p) => second.has(cellKey(p)))).toBe(true);
     // every retracted corner lies on the periodic orbit
     const gap = (p: Point) => Math.min(...scene.cycle.map((q) => Math.hypot(p[0] - q[0], p[1] - q[1])));
-    expect(Math.max(...scene.retract.flat().map(gap))).toBeLessThan(0.03);
+    expect(Math.max(...[...scene.retract.values()].map(gap))).toBeLessThan(0.03);
+  });
+
+  it("straightens the first copy onto a round disk, with the second Morse set on its boundary circle", () => {
+    expect(scene.triple).toBe(true);
+    const corners = ([i, j]: Point) => [[i, j], [i + 1, j], [i, j + 1], [i + 1, j + 1]].map((q) => q.join(","));
+    const onA = new Set(scene.pairCells.filter(([, kind]) => kind === 2).flatMap(([c]) => corners(c)));
+    for (const [key, [x, y]] of scene.round) {
+      if (onA.has(key)) expect(Math.hypot(x, y)).toBeCloseTo(scene.R0, 9);
+      else expect(Math.hypot(x, y)).toBeLessThan(scene.R0);
+    }
+    // every corner of the copy has somewhere to go
+    expect(scene.pairCells.flatMap(([c]) => corners(c)).every((key) => scene.round.has(key))).toBe(true);
   });
 
   it("places the arrow of the still frame between the two indices", () => {
     const measured = frame(773, 435, STILL).filter((entry) => entry.startsWith("measureText("));
-    expect(measured).toEqual(["measureText((0, 0, [1]))", "measureText(([1], [1], 0))"]);
+    expect(measured).toEqual(["measureText((0, 0, 1))", "measureText((1, 1, 0))"]);
   });
 
   it("never draws NaN or negative sizes at the canvas sizes the page allows", () => {

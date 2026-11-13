@@ -7,7 +7,9 @@
 // interior of |F(c)|, and F(c) is not cut off by the edge of the grid.
 //
 // For a Morse set M, P1 = M u F(M) and P0 = F(M) \ M form an index pair when no
-// cell of P0 maps back into M. The index map is i_*^{-1} phi_* on H_*(P1, P0),
+// cell of P0 maps back into M; pairIndex also takes any pair (P1, P0) with
+// F(P1 \ P0) in P1 and F(P0) disjoint from P1 \ P0, such as the pairs of an index
+// triple, whose connecting map is connectingMap. The index map is i_*^{-1} phi_* on H_*(P1, P0),
 // where i: (P1, P0) -> (Q1, Q0) = (P1 u F(P0), P0 u F(P0)) is the inclusion and
 // phi is a chain map carried by the carrier that sends a face s of P1 to the
 // intersection of F(c) over the cells c of P1 containing s. That carrier
@@ -269,6 +271,30 @@ class RelativeHomology {
 export const betti = (cells: Point[], exit: Point[] = []) =>
   new RelativeHomology(faces(cells), faces(exit)).reps.map((r) => r.length);
 
+// the rank of a matrix over F_p
+export function rank(A: number[][]): number {
+  const span = new Echelon();
+  let r = 0;
+  for (let c = 0; c < (A[0]?.length ?? 0); c++) {
+    if (span.add(new Map(A.flatMap((row, i) => (mod(row[c]) ? [[String(i).padStart(4, "0"), mod(row[c])]] : [])))) >= 0) r++;
+  }
+  return r;
+}
+
+// The connecting map H_k(N, L) -> H_{k-1}(L) of a pair of cubical sets L in N, for
+// k = 0, 1, 2, as a matrix in the bases of the two homologies: a relative cycle goes to
+// its boundary, which is a cycle of L. For an index triple (N, L, empty set) of an
+// attractor-repeller pair, these are the connecting maps of the indices.
+export function connectingMap(N: Point[], L: Point[]): number[][][] {
+  const pair = new RelativeHomology(faces(N), faces(L));
+  const sub = new RelativeHomology(faces(L), new Set());
+  return [0, 1, 2].map((k) => {
+    if (k === 0) return [];
+    const columns = pair.reps[k].map((z) => sub.coordinates(k - 1, boundaryOf(z)));
+    return sub.reps[k - 1].map((_, r) => columns.map((col) => col[r]));
+  });
+}
+
 // ---- the index map ------------------------------------------------------------------
 
 export type ConleyIndex = {
@@ -281,21 +307,36 @@ export type ConleyIndex = {
   shift: number[][][];
 };
 
+// the cells that the cells meet under F, keyed by cell
+function imageOf(cells: Point[], F: (cell: Point) => Point[]) {
+  const out = new Map<string, Point>();
+  for (const c of cells) for (const d of F(c)) out.set(cellKey(d), d);
+  return out;
+}
+
 export function conleyIndex(M: Point[], F: (cell: Point) => Point[]): ConleyIndex {
   const inM = new Set(M.map(cellKey));
-  const union = (cells: Point[]) => {
-    const out = new Map<string, Point>();
-    for (const c of cells) for (const d of F(c)) out.set(cellKey(d), d);
-    return out;
-  };
-  const image = union(M);
-  const P0 = [...image.values()].filter((c) => !inM.has(cellKey(c)));
-  const P1 = [...M, ...P0];
+  const P0 = [...imageOf(M, F).values()].filter((c) => !inM.has(cellKey(c)));
   for (const c of P0) {
     if (F(c).some((d) => inM.has(cellKey(d)))) throw new Error("(M u F(M), F(M) \\ M) is not an index pair");
   }
-  const exitImage = [...union(P0).values()];
+  return pairIndex([...M, ...P0], P0, F);
+}
+
+// the index map of a pair (P1, P0), P0 in P1, with F(P1 \ P0) in P1 and F(P0) disjoint
+// from P1 \ P0; P1 \ P0 is assumed to isolate the invariant set the index belongs to
+export function pairIndex(P1: Point[], P0: Point[], F: (cell: Point) => Point[]): ConleyIndex {
   const inP1 = new Set(P1.map(cellKey));
+  const inP0 = new Set(P0.map(cellKey));
+  for (const c of P1) {
+    const exit = inP0.has(cellKey(c));
+    for (const d of F(c)) {
+      if (exit ? inP1.has(cellKey(d)) && !inP0.has(cellKey(d)) : !inP1.has(cellKey(d))) {
+        throw new Error("(P1, P0) is not an index pair");
+      }
+    }
+  }
+  const exitImage = [...imageOf(P0, F).values()];
   const X1 = faces(P1);
   const X0 = faces(P0);
   const Y0 = faces([...P0, ...exitImage]);

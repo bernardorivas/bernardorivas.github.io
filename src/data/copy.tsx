@@ -40,7 +40,7 @@ export const softwareCopy = {
   // figure is in archive/lorenz-persistence.
   oaFigure: {
     aria:
-      "Animated grid over the phase plane of the Van der Pol oscillator. A few cells move along the flow to their images under the time-1.3 map, and the grid cells covering each image are shaded. Then every cell is joined to the cells covering its image. Two groups of cells remain, one around the equilibrium and one around the periodic orbit, and they move aside as the two vertices of a Morse graph, where the first shrinks to a point and the second to a circle, with an arrow from the point to the circle. Their Conley indices are shown as (0, 0, [1]) and ([1], [1], 0), with an arrow from the first to the second.",
+      "Animated grid over the phase plane of the Van der Pol oscillator. A few cells move along the flow to their images under the time-1.3 map, and the grid cells covering each image are shaded. Then every cell is joined to the cells covering its image. Two groups of cells remain, one around the equilibrium and one around the periodic orbit, and they move aside as the two vertices of a Morse graph. The cells between the two groups and a copy of the second join the first; together they straighten into a disk whose boundary closes up into a sphere, while the second group shrinks to a circle, with an arrow from the sphere to the circle. Their Conley indices are shown as (0, 0, 1) and (1, 1, 0), with an arrow from the first to the second.",
   },
 };
 
