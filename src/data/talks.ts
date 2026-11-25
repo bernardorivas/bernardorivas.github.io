@@ -13,7 +13,7 @@ export const talks: Talk[] = [
   {
     id: "talk-hybrid-global",
     year: "2027",
-    title: "Characterizing global dynamics of hybrid systems",
+    title: "Conley-theoretical frameworks for hybrid systems",
     venue: "Applied Math Seminar, Rutgers University · New Brunswick, New Jersey",
   },
   {
