@@ -11,4 +11,15 @@ fi
 test ! -e public/files/teaching
 test $(git ls-files 'public/files/teaching/**' | wc -l) -eq 0
 test $(wc -c < public/og-lorenz-smooth-2026.jpg) -lt 300000
+
+if ! cmp -s public/files/cv.pdf out/files/cv.pdf; then
+  echo "The exported CV differs from public/files/cv.pdf."
+  exit 1
+fi
+main_cv=../curriculum-vitae/cv-main.pdf
+if [ -f "$main_cv" ] && ! cmp -s "$main_cv" public/files/cv.pdf; then
+  echo "Refresh public/files/cv.pdf from ../curriculum-vitae/cv-main.pdf."
+  exit 1
+fi
+
 echo OK

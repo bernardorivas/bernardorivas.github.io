@@ -26,6 +26,12 @@ const pubLearned: Publication = {
   ],
 };
 
+const submittedEquivariant: Publication = {
+  id: "submitted-equivariant",
+  title: "An Equivariant Approach to Topological Dynamics",
+  authors: "B. Rivas, K. Iwasaki, R. Vasudevan",
+};
+
 const prepCycling: Publication = {
   id: "prep-cycling",
   title: "Learning Cycling Signatures of Hybrid Systems",
@@ -109,6 +115,11 @@ export const researchPublicationGroups: { id: string; title: string; publication
     id: "research-2024",
     title: "2024",
     publications: [pubGlobal],
+  },
+  {
+    id: "research-pending",
+    title: "Pending",
+    publications: [submittedEquivariant],
   },
   {
     id: "research-in-preparation",

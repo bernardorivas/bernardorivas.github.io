@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "npm test",
     "build": "next build",
+    "postbuild": "python3 scripts/linkcheck.py && bash scripts/check-assets.sh",
     "lint": "eslint",
     "test": "vitest run",
-    "verify": "npm run build && npm test && python3 scripts/linkcheck.py && bash scripts/check-assets.sh"
+    "verify": "npm run build"
   },
   "dependencies": {
     "next": "16.3.3",

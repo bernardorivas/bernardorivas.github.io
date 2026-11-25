@@ -1,17 +1,23 @@
 import { describe, it, expect } from "vitest";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import Research from "@/app/research/page";
 import { researchPublicationGroups, researchPublications, recentPublications } from "@/data/publications";
 import { talks } from "@/data/talks";
 
 describe("publications", () => {
-  it("has nine research entries", () => {
-    expect(researchPublications).toHaveLength(9);
+  it("has ten research entries", () => {
+    expect(researchPublications).toHaveLength(10);
   });
   it("lists every paper exactly once", () => {
     const ids = researchPublications.map(e => e.id);
     expect(new Set(ids).size).toBe(ids.length);
   });
   it("groups public papers by year and leaves unfinished work undated", () => {
-    expect(researchPublicationGroups.map(group => group.title)).toEqual(["2026", "2024", "In preparation"]);
+    expect(researchPublicationGroups.map(group => group.title)).toEqual(["2026", "2024", "Pending", "In preparation"]);
+    for (const group of researchPublicationGroups.filter(group => /^\d{4}$/.test(group.title))) {
+      for (const entry of group.publications) expect(entry.year).toBe(group.title);
+    }
     expect(researchPublicationGroups[0].publications.map(entry => entry.id)).toEqual([
       "prep-attractor",
       "prep-latent",
@@ -20,7 +26,26 @@ describe("publications", () => {
       "pub-boolean",
     ]);
     expect(researchPublicationGroups[1].publications.map(entry => entry.id)).toEqual(["pub-global"]);
-    expect(researchPublicationGroups[2].publications.every(entry => entry.year === undefined)).toBe(true);
+    const [pending] = researchPublicationGroups[2].publications;
+    expect(pending).toEqual({
+      id: "submitted-equivariant",
+      title: "An Equivariant Approach to Topological Dynamics",
+      authors: "B. Rivas, K. Iwasaki, R. Vasudevan",
+    });
+    expect(researchPublicationGroups[3].publications.every(entry => entry.year === undefined)).toBe(true);
+  });
+  it("renders the Research entries under their configured year or status", () => {
+    const markup = renderToStaticMarkup(createElement(Research));
+    const articles = [...markup.matchAll(/<article\b[^>]*aria-labelledby="([^"]+)"[^>]*>([\s\S]*?)<\/article>/g)];
+    const rails = articles.map(([, id, body]) => [id, /<div class="rail">([^<]*)<\/div>/.exec(body)?.[1]]);
+    expect(rails).toEqual(researchPublicationGroups.flatMap(group =>
+      group.publications.map((entry, index) => [entry.id, index === 0 ? group.title : ""]),
+    ));
+
+    const pending = articles.find(([, id]) => id === "submitted-equivariant")?.[2];
+    expect(pending).toContain('<h3 class="title" id="submitted-equivariant">An Equivariant Approach to Topological Dynamics</h3>');
+    expect(pending).toContain('<span class="author-self">B. Rivas</span>, K. Iwasaki, R. Vasudevan');
+    expect(pending).not.toContain("href=");
   });
   it("keeps arXiv ids verbatim (including future-dated ones)", () => {
     const ids = researchPublications.map(e => e.arxivId).filter(Boolean);
@@ -62,8 +87,8 @@ describe("publications", () => {
 });
 
 describe("talks", () => {
-  it("is a single list of 14, newest first", () => {
-    expect(talks).toHaveLength(14);
+  it("is a single list of 15, newest first", () => {
+    expect(talks).toHaveLength(15);
     const years = talks.map(t => Number(t.year));
     expect(years).toEqual([...years].sort((a, b) => b - a));
     expect(talks.filter(t => t.year === "2025").map(t => t.id)).toEqual([

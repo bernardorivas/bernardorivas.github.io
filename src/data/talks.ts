@@ -5,8 +5,14 @@ import type { Talk } from "@/data/types";
 
 export const talks: Talk[] = [
   {
+    id: "talk-hybrid-ds27",
+    year: "2027",
+    title: "Characterizing global dynamics of hybrid systems",
+    venue: "SIAM Conference on Applications of Dynamical Systems · Atlanta, Georgia",
+  },
+  {
     id: "talk-hybrid-global",
-    year: "2026",
+    year: "2027",
     title: "Characterizing global dynamics of hybrid systems",
     venue: "Applied Math Seminar, Rutgers University · New Brunswick, New Jersey",
   },
