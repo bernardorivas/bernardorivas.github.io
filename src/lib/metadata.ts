@@ -4,8 +4,8 @@ import { isDraftRoute } from "@/data/routes";
 export const SITE_URL = "https://bernardorivas.com";
 
 export const FAVICON = "/favicon.png";
-export const SOCIAL_IMAGE = "/og-lorenz-smooth-2026.jpg";
-export const SOCIAL_IMAGE_ALT = "Bernardo Rivas — Postdoc - Mathematics, with a Lorenz system trajectory";
+export const SOCIAL_IMAGE = "/og-name-role.jpg";
+export const SOCIAL_IMAGE_ALT = "Bernardo Rivas, Postdoc - Mathematics";
 
 export function buildMetadata(opts: {
   title: string;

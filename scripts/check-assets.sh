@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-expected_public_files=$'public/CNAME\npublic/assets/profile.jpg\npublic/favicon.png\npublic/files/cv.pdf\npublic/og-lorenz-smooth-2026.jpg\npublic/research.html\npublic/software.html\npublic/talks.html\npublic/teaching.html'
+expected_public_files=$'public/CNAME\npublic/assets/profile.jpg\npublic/favicon.png\npublic/files/cv.pdf\npublic/og-name-role.jpg\npublic/research.html\npublic/software.html\npublic/talks.html\npublic/teaching.html'
 actual_public_files=$(find public -type f -print | LC_ALL=C sort)
 if [ "$actual_public_files" != "$expected_public_files" ]; then
   echo "Unexpected public files"
@@ -10,7 +10,7 @@ fi
 
 test ! -e public/files/teaching
 test $(git ls-files 'public/files/teaching/**' | wc -l) -eq 0
-test $(wc -c < public/og-lorenz-smooth-2026.jpg) -lt 300000
+test $(wc -c < public/og-name-role.jpg) -lt 300000
 
 if ! cmp -s public/files/cv.pdf out/files/cv.pdf; then
   echo "The exported CV differs from public/files/cv.pdf."
