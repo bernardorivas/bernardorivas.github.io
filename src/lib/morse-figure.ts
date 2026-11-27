@@ -1,8 +1,9 @@
-// Everything the Software figure shows besides the flow itself: the outer
+// Everything the Software figure needs besides the flow itself: the outer
 // approximation from padded samples on every cell of the grid (not rigorous;
 // see outer-approximation.ts), its Morse sets and Morse graph, the Conley
-// index of each Morse set, and the connecting map between them. The page
-// computes it once, at build time, and passes it to the client component.
+// index of each Morse set, and the connecting map between them. The figure
+// draws the index pairs but no longer prints the indices. The page computes
+// all of it once, at build time, and passes it to the client component.
 //
 // When the Morse graph is a single edge from a repeller R to an attractor A, both
 // indices come from one index triple: N, the cells on paths between the two Morse

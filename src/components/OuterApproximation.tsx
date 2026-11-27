@@ -3,8 +3,8 @@
 // Animation for the Software page: a few grid cells are carried by the time-tau
 // map of the Van der Pol flow and the cells covering their images are shaded;
 // then the outer approximation from padded samples is drawn as a graph on every
-// cell, its Morse sets are singled out, and they move into the Morse graph with
-// their Conley indices.
+// cell, its Morse sets are singled out, and they move into the Morse graph, where
+// the first closes into a sphere and the second shrinks to the periodic orbit.
 // The page computes the graph and the indices at build time (src/lib/morse-figure.ts);
 // this file only runs the clock, and src/lib/morse-figure-scene.ts draws each frame.
 

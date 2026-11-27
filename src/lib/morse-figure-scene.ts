@@ -10,9 +10,8 @@
 // the first, forming the index pair (N, A) of the first; its cells straighten into a
 // round disk with A collapsed onto the boundary circle, and the disk closes into a
 // sphere with that circle at its top pole, the quotient N / A. Meanwhile the
-// second, the pair (A, empty set), retracts onto the periodic orbit. The Conley
-// index of each appears, and an arrow from the first index to the second marks the
-// connecting map between them.
+// second, the pair (A, empty set), retracts onto the periodic orbit. The figure
+// ends on the edge of the Morse graph, an arrow from the sphere to the circle.
 
 import type { FigureData } from "./morse-figure";
 import { cellIndex, cellOf } from "./morse-graph";
@@ -46,17 +45,15 @@ const T = {
   straighten: [SHOW_END + 9.0, SHOW_END + 10.0],
   close: [SHOW_END + 10.3, SHOW_END + 11.7],
   arrow: [SHOW_END + 12.0, SHOW_END + 12.6],
-  index: [SHOW_END + 12.9, SHOW_END + 13.6],
 };
 // delays of the second Morse set behind the first
-const LAG = { scc: 0.45, fly: 0.35, index: 0.6 };
-// the arrow between the indices grows once both are in place
-const LINK = [T.index[1] + LAG.index + 0.3, T.index[1] + LAG.index + 0.9];
-export const CYCLE_S = SHOW_END + 19.7;
+const LAG = { scc: 0.45, fly: 0.35 };
+// the finished Morse graph holds for 3 s, then the figure takes its last second to fade
+export const CYCLE_S = T.arrow[1] + 4;
 // the figure fades over [OUT[0], OUT[0] + 0.55], then the bare plane moves back to the center
 const OUT = [CYCLE_S - 1, CYCLE_S];
-// the frame shown when motion is reduced: the Morse graph with both indices and the arrow between them
-export const STILL = SHOW_END + 17;
+// the frame shown when motion is reduced: the finished Morse graph, the sphere with the arrow to the circle
+export const STILL = T.arrow[1] + 1.5;
 // radius of the pole of the sphere, in pixels
 const DOT_R = 4;
 // the sphere is seen from TILT above the plane of the disk it closes from, and its
@@ -69,8 +66,7 @@ const STATIC: [number, number][] = [
   [T.scc[1] + LAG.scc, T.slide[0]],
   [T.gather[1], T.straighten[0]],
   [T.close[1], T.arrow[0]],
-  [T.arrow[1], T.index[0]],
-  [LINK[1], OUT[0]],
+  [T.arrow[1], OUT[0]],
 ];
 // the static stretch containing t, or -1; frames within one stretch are identical
 export const staticPart = (t: number) => STATIC.findIndex(([a, b]) => a < t && t < b);
@@ -101,9 +97,6 @@ export type Scene = {
   setOf: number[];
   // bounding box of each Morse set in cell units, [i0, i1, j0, j1] with i1, j1 exclusive
   boxes: [number, number, number, number][];
-  labels: string[];
-  // whether the connecting map from the first index to the second is not zero
-  linked: boolean;
   // where the corners "i,j" of the cells of the second Morse set go: along the rays
   // from the equilibrium onto the periodic orbit, which is star-shaped about it
   retract: Map<string, Point>;
@@ -120,11 +113,6 @@ export type Scene = {
   round: Map<string, Point>;
   R0: number;
 };
-
-const matrix = (m: number[][]) => (m.length === 0 ? "0" : `[${m.map((row) => row.join(" ")).join("; ")}]`);
-// an entry of an index: the rank of its homology in that degree when the index map
-// there is the identity, as it is for every time-tau map of a flow, and otherwise the matrix
-const entry = (m: number[][]) => (m.every((row, r) => row.every((a, c) => a === (r === c ? 1 : 0))) ? String(m.length) : matrix(m));
 
 // the sides of the cells that no other cell of the set shares, as pairs of grid
 // corners, each with the set on its left
@@ -288,8 +276,6 @@ export function makeScene(data: FigureData): Scene {
     start,
     setOf,
     boxes,
-    labels: data.index.map((maps) => `(${maps.map(entry).join(", ")})`),
-    linked: data.connection.some((rank) => rank > 0),
     retract,
     top,
     triple,
@@ -304,12 +290,9 @@ type Layout = {
   x: number;
   y: number;
   size: number;
-  // centers of the Morse graph vertices, the side of a cell there, and where the labels start
+  // centers of the Morse graph vertices and the side of a cell there
   nodes: Point[];
   mini: number;
-  labelX: number;
-  labelY: number[];
-  font: number;
 };
 
 function layout(W: number, H: number, slide: number, scene: Scene): Layout {
@@ -317,42 +300,39 @@ function layout(W: number, H: number, slide: number, scene: Scene): Layout {
   const gap = 18;
   const rows = scene.boxes.map(([, , j0, j1]) => j1 - j0);
   const widest = Math.max(...scene.boxes.map(([i0, i1]) => i1 - i0));
-  const font = Math.round(Math.min(17, Math.max(13, H * 0.038)));
-  const labelW = font * 6.4;
   const stack = (top: number, height: number, between: number, mini: number) => {
     const total = (rows[0] + rows[1]) * mini + between;
     const y0 = top + (height - total) / 2;
     return [y0 + (rows[0] * mini) / 2, y0 + rows[0] * mini + between + (rows[1] * mini) / 2];
   };
-  // Morse graph beside the plane, when it leaves room for cells of at least 4 px
+  // Morse graph beside the plane, centered in the space to its right, when it
+  // leaves room for cells of at least 4 px
   if (W / H >= 1.4) {
     const size = H - 2 * pad;
     const panelX = pad + size + gap;
     const panelW = W - panelX - pad;
     const between = Math.max(34, H * 0.12);
-    const mini = Math.min((H * 0.86 - between) / (rows[0] + rows[1]), (panelW - labelW - 24) / widest);
+    const mini = Math.min((H * 0.86 - between) / (rows[0] + rows[1]), panelW / widest);
     if (mini >= 4) {
-      const nx = panelX + (widest * mini) / 2 + 6;
+      const nx = panelX + panelW / 2;
       return {
         x: lerp((W - size) / 2, pad, slide),
         y: pad,
         size,
         nodes: stack(0, H, between, mini).map((y) => [nx, y] as Point),
         mini,
-        labelX: nx + (widest * mini) / 2 + 22,
-        labelY: stack(0, H, between, mini),
-        font,
       };
     }
   }
-  // Morse graph below the plane, which shrinks as it moves up to make room
+  // Morse graph below the plane and centered under it; the plane shrinks as it
+  // moves up to make room
   const size0 = Math.min(W - 2 * pad, H * 0.64);
   const size1 = Math.min(W - 2 * pad, H * 0.52);
   const panelY = pad + size1 + gap;
   const panelH = H - panelY - pad;
   const between = Math.max(24, panelH * 0.16);
-  const mini = Math.max(1, Math.min((panelH * 0.92 - between) / (rows[0] + rows[1]), (W - 2 * pad - labelW - 40) / widest));
-  const nx = W / 2 - (labelW + 22) / 2;
+  const mini = Math.max(1, Math.min((panelH * 0.92 - between) / (rows[0] + rows[1]), (W - 2 * pad) / widest));
+  const nx = W / 2;
   const size = lerp(size0, size1, slide);
   return {
     x: (W - size) / 2,
@@ -360,9 +340,6 @@ function layout(W: number, H: number, slide: number, scene: Scene): Layout {
     size,
     nodes: stack(panelY, panelH, between, mini).map((y) => [nx, y] as Point),
     mini,
-    labelX: nx + (widest * mini) / 2 + 22,
-    labelY: stack(panelY, panelH, between, mini),
-    font,
   };
 }
 
@@ -748,31 +725,6 @@ export function drawFrame(
     const below = scene.triple ? SPHERE * (scene.R0 / CELL) * L.mini : ((scene.boxes[0][3] - scene.boxes[0][2]) * L.mini) / 2;
     const end = toCopy(1, scene.top);
     arrowFrom([equilibrium[0], equilibrium[1] + below + 7], [end[0], end[1] - 7], arrow);
-  }
-
-  // the Conley index of each Morse set: its index map on H_0, H_1, H_2 up to shift equivalence
-  scene.labels.forEach((label, p) => {
-    const a = phase(t, T.index[0] + LAG.index * p, T.index[1] + LAG.index * p) * out;
-    if (a <= 0) return;
-    ctx.globalAlpha = a;
-    ctx.fillStyle = C.ink;
-    ctx.font = `${L.font}px ${C.serif}`;
-    ctx.textAlign = "left";
-    ctx.textBaseline = "middle";
-    ctx.fillText(label, L.labelX - 6 * (1 - a), L.labelY[p]);
-  });
-
-  // the connecting map from the first index to the second, when it is not zero: a
-  // vertical arrow halfway between the centers of the two labels
-  const link = phase(t, LINK[0], LINK[1]) * out;
-  if (link > 0 && scene.linked) {
-    ctx.font = `${L.font}px ${C.serif}`;
-    const x = L.labelX + (ctx.measureText(scene.labels[0]).width + ctx.measureText(scene.labels[1]).width) / 4;
-    ctx.strokeStyle = C.inkSoft;
-    ctx.fillStyle = C.inkSoft;
-    ctx.lineWidth = 1.4;
-    ctx.globalAlpha = link;
-    arrowFrom([x, L.labelY[0] + 0.8 * L.font], [x, L.labelY[1] - 0.8 * L.font], link);
   }
 
   // the equilibrium

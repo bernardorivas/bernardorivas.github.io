@@ -53,7 +53,7 @@ describe("figure frames", () => {
       const part = staticPart(t);
       if (part >= 0) stretches.set(part, [...(stretches.get(part) ?? []), t]);
     }
-    expect(stretches.size).toBe(6);
+    expect(stretches.size).toBe(5);
     for (const times of stretches.values()) {
       for (const [W, H] of [[773, 435], [360, 480]]) {
         const first = frame(W, H, times[0]);
@@ -63,9 +63,10 @@ describe("figure frames", () => {
     }
   });
 
-  it("shows both Conley indices in the still frame", () => {
-    const text = frame(773, 435, STILL).filter((entry) => entry.startsWith("fillText"));
-    expect(text.map((entry) => entry.split(",")[0])).toEqual(["fillText((0", "fillText((1"]);
+  it("shows the finished Morse graph, without any text, in the still frame", () => {
+    // the last of the five static stretches, which ends when the figure fades
+    expect(staticPart(STILL)).toBe(4);
+    expect(frame(773, 435, STILL).some((entry) => entry.startsWith("fillText"))).toBe(false);
   });
 
   it("retracts the second copy onto the periodic orbit, which its cells contain", () => {
@@ -90,11 +91,6 @@ describe("figure frames", () => {
     }
     // every corner of the copy has somewhere to go
     expect(scene.pairCells.flatMap(([c]) => corners(c)).every((key) => scene.round.has(key))).toBe(true);
-  });
-
-  it("places the arrow of the still frame between the two indices", () => {
-    const measured = frame(773, 435, STILL).filter((entry) => entry.startsWith("measureText("));
-    expect(measured).toEqual(["measureText((0, 0, 1))", "measureText((1, 1, 0))"]);
   });
 
   it("never draws NaN or negative sizes at the canvas sizes the page allows", () => {
