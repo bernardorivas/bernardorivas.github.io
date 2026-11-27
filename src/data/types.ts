@@ -8,7 +8,10 @@ export interface Publication {
   arxivId?: string;
   links?: PublicationLink[];  // extra links (code, proceedings) after the arXiv id
 }
-export interface Talk { id: string; year: string; title: string; venue: string; }
+export interface Talk {
+  id: string; year: string; title: string; venue: string;
+  upcoming?: boolean;         // shown under "Upcoming" instead of its year; remove once given
+}
 export interface CourseLink { label: string; href: string; external?: boolean; } // external renders "↗", internal "→"
 export interface Course { id: string; term: string; title: string; meta?: string; links?: CourseLink[]; }
 export interface CourseGroup { title: string; courses: Course[]; }

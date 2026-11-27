@@ -9,12 +9,14 @@ export const talks: Talk[] = [
     year: "2027",
     title: "Characterizing global dynamics of hybrid systems",
     venue: "SIAM Conference on Applications of Dynamical Systems · Atlanta, Georgia",
+    upcoming: true,
   },
   {
     id: "talk-hybrid-global",
     year: "2027",
     title: "Conley-theoretical frameworks for hybrid systems",
     venue: "Applied Math Seminar, Rutgers University · New Brunswick, New Jersey",
+    upcoming: true,
   },
   {
     id: "talk-homological",

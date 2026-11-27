@@ -1,7 +1,12 @@
 import { buildMetadata } from "@/lib/metadata";
 import { talksCopy } from "@/data/copy";
 import { talks } from "@/data/talks";
+import type { Talk } from "@/data/types";
 import TalkEntry from "@/components/TalkEntry";
+
+// The rail names each group once: "Upcoming" for talks not yet given, as
+// Research does with "Pending", and otherwise the year.
+const railOf = (talk: Talk) => (talk.upcoming ? "Upcoming" : talk.year);
 
 export const metadata = buildMetadata({
   title: "Talks — Bernardo Rivas",
@@ -21,8 +26,8 @@ export default function Talks() {
               key={talk.id}
               talk={talk}
               railLabel={
-                index === 0 || talk.year !== talks[index - 1]?.year
-                  ? talk.year
+                index === 0 || railOf(talk) !== railOf(talks[index - 1])
+                  ? railOf(talk)
                   : null
               }
             />

@@ -98,6 +98,11 @@ describe("talks", () => {
       "talk-network-dynamics",
     ]);
   });
+  it("lists upcoming talks first, so they share one rail label", () => {
+    const upcoming = talks.map(t => Boolean(t.upcoming));
+    expect(upcoming).toEqual([...upcoming].sort((a, b) => Number(b) - Number(a)));
+    expect(talks.filter(t => t.upcoming).map(t => t.id)).toEqual(["talk-hybrid-ds27", "talk-hybrid-global"]);
+  });
   it("uses the middle-dot separator in venues", () => {
     for (const t of talks) expect(t.venue).toContain("·");
   });
