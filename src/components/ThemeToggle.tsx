@@ -36,13 +36,14 @@ export default function ThemeToggle() {
     setTheme(next); applyMeta(next);
   }, []);
   const dark = theme === "dark";
+  // The label names what a click does, so the button carries no pressed state:
+  // "Use light theme" announced as pressed would contradict itself.
   const label = dark ? "Use light theme" : "Use dark theme";
   return (
     <button
       type="button"
       className="theme-toggle"
       data-theme-toggle
-      aria-pressed={dark}
       aria-label={label}
       title={label}
       onClick={toggle}

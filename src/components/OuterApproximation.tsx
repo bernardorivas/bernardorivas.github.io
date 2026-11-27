@@ -92,7 +92,7 @@ export default function OuterApproximation({ data }: { data: FigureData }) {
 
     function syncToggle() {
       const label = paused ? "Play animation" : "Pause animation";
-      toggle!.setAttribute("aria-pressed", String(paused));
+      // the label names what a click does, so the button carries no pressed state
       toggle!.setAttribute("aria-label", label);
       toggle!.setAttribute("title", label);
       toggle!.dataset.state = paused ? "paused" : "playing";
@@ -170,7 +170,6 @@ export default function OuterApproximation({ data }: { data: FigureData }) {
         type="button"
         className="simulation-toggle oa-toggle"
         aria-label="Pause animation"
-        aria-pressed={false}
         data-state="playing"
         title="Pause animation"
       />
