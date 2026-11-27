@@ -17,14 +17,12 @@ export default function OuterApproximation({ data }: { data: FigureData }) {
   const figureRef = useRef<HTMLElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const toggleRef = useRef<HTMLButtonElement | null>(null);
-  const rangeRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     const figure = figureRef.current;
     const canvas = canvasRef.current;
     const toggle = toggleRef.current;
-    const range = rangeRef.current;
-    if (!figure || !canvas || !toggle || !range) return;
+    if (!figure || !canvas || !toggle) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
@@ -35,7 +33,6 @@ export default function OuterApproximation({ data }: { data: FigureData }) {
     let clock = paused ? STILL : 0;
     let last: number | null = null;
     let raf = 0;
-    let scrubbing = false;
     // the static stretch of the loop shown by the last drawn frame, or -1
     let drawnPart = -1;
     let palette: Palette = { paper: "", ink: "", inkSoft: "", line: "", graph: "", blue: "", gold: "", serif: "serif" };
@@ -71,7 +68,6 @@ export default function OuterApproximation({ data }: { data: FigureData }) {
     function draw() {
       const { width, height, ratio } = sizeCanvas();
       const t = clock % CYCLE_S;
-      range!.value = String(t);
       drawFrame(ctx!, width, height, t, palette, scene, ratio);
       drawnPart = staticPart(t);
     }
@@ -79,18 +75,15 @@ export default function OuterApproximation({ data }: { data: FigureData }) {
     function frame(now: number) {
       raf = 0;
       // cap the step so returning to a background tab does not jump the clock
-      // while the time bar is held, the clock stays where the bar puts it
-      if (last !== null && !scrubbing) clock += Math.min(0.1, (now - last) / 1000);
+      if (last !== null) clock += Math.min(0.1, (now - last) / 1000);
       last = now;
       // schedule the next frame first, so a failed draw cannot end the loop
       if (!paused && visible) raf = window.requestAnimationFrame(frame);
       else last = null;
-      // within a stretch where the picture does not change, only the time bar moves;
-      // resizing, a theme change or the time bar redraw through draw() directly
-      const t = clock % CYCLE_S;
-      const part = staticPart(t);
-      if (part >= 0 && part === drawnPart) range!.value = String(t);
-      else draw();
+      // within a stretch where the picture does not change there is nothing to
+      // draw; resizing or a theme change redraw through draw() directly
+      const part = staticPart(clock % CYCLE_S);
+      if (part < 0 || part !== drawnPart) draw();
     }
 
     function play() {
@@ -111,22 +104,6 @@ export default function OuterApproximation({ data }: { data: FigureData }) {
       play();
     }
     toggle.addEventListener("click", onToggleClick);
-
-    // dragging the time bar moves the clock; playback continues from there on release
-    function onScrub() {
-      clock = Math.min(Number(range!.value), CYCLE_S - 1e-3);
-      draw();
-    }
-    const onScrubStart = () => {
-      scrubbing = true;
-    };
-    const onScrubEnd = () => {
-      scrubbing = false;
-    };
-    range.addEventListener("input", onScrub);
-    range.addEventListener("pointerdown", onScrubStart);
-    window.addEventListener("pointerup", onScrubEnd);
-    window.addEventListener("pointercancel", onScrubEnd);
 
     let observer: IntersectionObserver | undefined;
     if (typeof IntersectionObserver === "function") {
@@ -173,10 +150,6 @@ export default function OuterApproximation({ data }: { data: FigureData }) {
     return () => {
       window.cancelAnimationFrame(raf);
       toggle.removeEventListener("click", onToggleClick);
-      range.removeEventListener("input", onScrub);
-      range.removeEventListener("pointerdown", onScrubStart);
-      window.removeEventListener("pointerup", onScrubEnd);
-      window.removeEventListener("pointercancel", onScrubEnd);
       observer?.disconnect();
       themeObserver.disconnect();
       scheme.removeEventListener("change", onTheme);
@@ -191,18 +164,16 @@ export default function OuterApproximation({ data }: { data: FigureData }) {
       <canvas ref={canvasRef} className="oa-canvas" width={960} height={540} role="img" aria-label={copy.aria}>
         {copy.aria}
       </canvas>
-      <div className="oa-controls">
-        <button
-          ref={toggleRef}
-          type="button"
-          className="simulation-toggle"
-          aria-label="Pause animation"
-          aria-pressed={false}
-          data-state="playing"
-          title="Pause animation"
-        />
-        <input ref={rangeRef} type="range" min={0} max={CYCLE_S} step="any" defaultValue={0} aria-label="Time" />
-      </div>
+      {/* the only control: a pause button in the corner of the figure (see .oa-toggle) */}
+      <button
+        ref={toggleRef}
+        type="button"
+        className="simulation-toggle oa-toggle"
+        aria-label="Pause animation"
+        aria-pressed={false}
+        data-state="playing"
+        title="Pause animation"
+      />
     </figure>
   );
 }
